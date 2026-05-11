@@ -1,0 +1,1189 @@
+[2026-05-06 00:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 00:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:29691", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 00:00:03 UTC] promote scored applicants limit=25
+promoted_count
+25
+applicant_pool_id	applicant_match_score_id	candidate_id	candidate_match_score_id	promoted_utc
+13	177	181444954	84	2026-05-06 00:00:03
+23	378	181444953	83	2026-05-06 00:00:03
+284	395	181444955	85	2026-05-06 00:00:03
+36	428	181444968	98	2026-05-06 00:00:04
+54	483	181444967	97	2026-05-06 00:00:04
+59	488	181444966	96	2026-05-06 00:00:04
+280	392	181444957	87	2026-05-06 00:00:04
+286	397	181444956	86	2026-05-06 00:00:04
+296	442	181444974	104	2026-05-06 00:00:04
+307	494	181444971	101	2026-05-06 00:00:04
+308	495	181444972	102	2026-05-06 00:00:04
+309	496	181444973	103	2026-05-06 00:00:04
+314	499	181444970	100	2026-05-06 00:00:04
+547	451	181444969	99	2026-05-06 00:00:04
+548	415	181444964	94	2026-05-06 00:00:04
+551	405	181444963	93	2026-05-06 00:00:04
+556	410	181444962	92	2026-05-06 00:00:04
+558	412	181444959	89	2026-05-06 00:00:04
+561	455	181444960	90	2026-05-06 00:00:04
+569	462	181444958	88	2026-05-06 00:00:04
+573	631	181444961	91	2026-05-06 00:00:04
+580	637	181444975	105	2026-05-06 00:00:04
+816	467	181444965	95	2026-05-06 00:00:04
+834	697	181444977	107	2026-05-06 00:00:04
+856	716	181444976	106	2026-05-06 00:00:04
+[2026-05-06 01:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 01:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:54662", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 01:00:02 UTC] promote scored applicants limit=25
+promoted_count
+25
+applicant_pool_id	applicant_match_score_id	candidate_id	candidate_match_score_id	promoted_utc
+101	540	181444995	125	2026-05-06 01:00:03
+110	549	181444994	124	2026-05-06 01:00:03
+111	550	181444993	123	2026-05-06 01:00:03
+116	555	181444997	127	2026-05-06 01:00:03
+321	572	181444984	114	2026-05-06 01:00:03
+322	573	181444985	115	2026-05-06 01:00:03
+324	575	181444982	112	2026-05-06 01:00:03
+326	577	181444983	113	2026-05-06 01:00:03
+328	579	181444979	109	2026-05-06 01:00:03
+332	583	181444981	111	2026-05-06 01:00:03
+342	591	181444980	110	2026-05-06 01:00:03
+356	604	181444996	126	2026-05-06 01:00:03
+602	655	181444990	120	2026-05-06 01:00:03
+608	661	181444988	118	2026-05-06 01:00:03
+621	673	181444986	116	2026-05-06 01:00:03
+622	674	181444987	117	2026-05-06 01:00:03
+631	683	181445002	132	2026-05-06 01:00:03
+635	687	181445001	131	2026-05-06 01:00:03
+646	754	181444998	128	2026-05-06 01:00:03
+647	755	181444999	129	2026-05-06 01:00:03
+835	698	181444978	108	2026-05-06 01:00:03
+866	725	181444992	122	2026-05-06 01:00:03
+869	727	181444991	121	2026-05-06 01:00:03
+883	738	181444989	119	2026-05-06 01:00:03
+886	741	181445000	130	2026-05-06 01:00:03
+[2026-05-06 02:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 02:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:77812", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 02:00:02 UTC] promote scored applicants limit=25
+promoted_count
+25
+applicant_pool_id	applicant_match_score_id	candidate_id	candidate_match_score_id	promoted_utc
+633	685	181445003	133	2026-05-06 02:00:02
+909	775	181445005	135	2026-05-06 02:00:02
+993	776	181445004	134	2026-05-06 02:00:02
+152	810	181445018	148	2026-05-06 02:00:03
+157	814	181445014	144	2026-05-06 02:00:03
+163	820	181445016	146	2026-05-06 02:00:03
+164	821	181445017	147	2026-05-06 02:00:03
+166	823	181445015	145	2026-05-06 02:00:03
+189	844	181445027	157	2026-05-06 02:00:03
+195	850	181445026	156	2026-05-06 02:00:03
+375	619	181445011	141	2026-05-06 02:00:03
+377	621	181445010	140	2026-05-06 02:00:03
+382	626	181445009	139	2026-05-06 02:00:03
+386	789	181445008	138	2026-05-06 02:00:03
+403	854	181445022	152	2026-05-06 02:00:03
+408	859	181445021	151	2026-05-06 02:00:03
+417	868	181445020	150	2026-05-06 02:00:03
+422	873	181445019	149	2026-05-06 02:00:03
+630	682	181445007	137	2026-05-06 02:00:03
+679	924	181445012	142	2026-05-06 02:00:03
+695	937	181445024	154	2026-05-06 02:00:03
+696	938	181445025	155	2026-05-06 02:00:03
+703	945	181445023	153	2026-05-06 02:00:03
+905	771	181445006	136	2026-05-06 02:00:03
+925	964	181445013	143	2026-05-06 02:00:03
+[2026-05-06 03:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 03:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:102665", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 03:00:02 UTC] promote scored applicants limit=25
+promoted_count
+25
+applicant_pool_id	applicant_match_score_id	candidate_id	candidate_match_score_id	promoted_utc
+177	832	181445030	160	2026-05-06 03:00:02
+187	842	181445028	158	2026-05-06 03:00:02
+188	843	181445029	159	2026-05-06 03:00:02
+203	1008	181445049	179	2026-05-06 03:00:02
+207	1012	181445048	178	2026-05-06 03:00:02
+220	1025	181445047	177	2026-05-06 03:00:02
+427	878	181445034	164	2026-05-06 03:00:02
+428	879	181445035	165	2026-05-06 03:00:02
+432	882	181445036	166	2026-05-06 03:00:02
+434	883	181445033	163	2026-05-06 03:00:02
+446	894	181445031	161	2026-05-06 03:00:02
+450	898	181445032	162	2026-05-06 03:00:02
+708	1117	181445040	170	2026-05-06 03:00:02
+710	1119	181445041	171	2026-05-06 03:00:02
+715	1123	181445038	168	2026-05-06 03:00:02
+717	1125	181445039	169	2026-05-06 03:00:02
+719	1127	181445037	167	2026-05-06 03:00:02
+969	1180	181445046	176	2026-05-06 03:00:02
+972	1183	181445045	175	2026-05-06 03:00:02
+976	1187	181445042	172	2026-05-06 03:00:02
+978	1189	181445044	174	2026-05-06 03:00:02
+989	1199	181445043	173	2026-05-06 03:00:02
+463	1072	181445052	182	2026-05-06 03:00:03
+471	1080	181445051	181	2026-05-06 03:00:03
+475	1083	181445050	180	2026-05-06 03:00:03
+[2026-05-06 04:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 04:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:125975", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 04:00:03 UTC] promote scored applicants limit=25
+promoted_count
+25
+applicant_pool_id	applicant_match_score_id	candidate_id	candidate_match_score_id	promoted_utc
+30	385	181445077	207	2026-05-06 04:00:03
+229	1034	181445064	194	2026-05-06 04:00:03
+232	1037	181445065	195	2026-05-06 04:00:03
+240	1045	181445062	192	2026-05-06 04:00:03
+242	1047	181445063	193	2026-05-06 04:00:03
+253	1058	181445067	197	2026-05-06 04:00:03
+254	1059	181445068	198	2026-05-06 04:00:03
+255	1060	181445069	199	2026-05-06 04:00:03
+260	91	181445070	200	2026-05-06 04:00:03
+261	92	181445071	201	2026-05-06 04:00:03
+453	1062	181445053	183	2026-05-06 04:00:03
+454	1063	181445054	184	2026-05-06 04:00:03
+488	1095	181445066	196	2026-05-06 04:00:03
+501	1106	181445057	187	2026-05-06 04:00:03
+502	1107	181445058	188	2026-05-06 04:00:03
+512	95	181445072	202	2026-05-06 04:00:03
+523	191	181445074	204	2026-05-06 04:00:03
+739	1146	181445055	185	2026-05-06 04:00:03
+744	1151	181445056	186	2026-05-06 04:00:03
+747	1154	181445060	190	2026-05-06 04:00:03
+749	1156	181445061	191	2026-05-06 04:00:03
+763	1170	181445059	189	2026-05-06 04:00:03
+777	182	181445073	203	2026-05-06 04:00:03
+792	366	181445076	206	2026-05-06 04:00:03
+795	369	181445075	205	2026-05-06 04:00:03
+[2026-05-06 05:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 05:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:148173", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 05:00:02 UTC] promote scored applicants limit=25
+promoted_count
+6
+applicant_pool_id	applicant_match_score_id	candidate_id	candidate_match_score_id	promoted_utc
+357	45	181445081	211	2026-05-06 05:00:02
+361	46	181445079	209	2026-05-06 05:00:02
+362	47	181445080	210	2026-05-06 05:00:02
+878	25	181445078	208	2026-05-06 05:00:02
+919	65	181445083	213	2026-05-06 05:00:02
+926	67	181445082	212	2026-05-06 05:00:02
+[2026-05-06 06:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 06:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:171237", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 06:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 07:00:04 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 07:00:04 UTC] process applicant queue limit=25
+{"worker_id": "venus:193183", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 07:00:05 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 08:00:03 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 08:00:03 UTC] process applicant queue limit=25
+{"worker_id": "venus:214994", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 08:00:04 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 09:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 09:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:236953", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 09:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 10:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 10:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:258796", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 10:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 11:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 11:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:280656", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 11:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 12:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 12:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:302993", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 12:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 13:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 13:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:325728", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 13:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 14:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 14:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:349245", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 14:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 15:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 15:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:372116", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 15:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 16:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 16:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:394315", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 16:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 17:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 17:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:416050", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 17:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 18:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 18:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:438217", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 18:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 19:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 19:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:459401", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 19:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 20:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 20:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:480880", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 20:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 21:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 21:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:502679", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 21:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 22:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 22:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:525012", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 22:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-06 23:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-06 23:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:547132", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-06 23:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 00:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 00:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:569938", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 00:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 01:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 01:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:591904", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 01:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 02:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 02:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:613895", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 02:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 03:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 03:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:635883", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 03:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 04:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 04:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:658171", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 04:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 05:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 05:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:680595", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 05:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 06:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 06:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:703602", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 06:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 07:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 07:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:725863", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 07:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 08:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 08:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:747834", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 08:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 09:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 09:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:769762", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 09:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 10:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 10:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:791653", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 10:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 11:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 11:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:813537", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 11:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 12:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 12:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:836116", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 12:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 13:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 13:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:858090", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 13:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 14:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 14:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:880142", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 14:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 15:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 15:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:902152", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 15:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 16:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 16:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:924246", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 16:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 17:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 17:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:946039", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 17:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 18:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 18:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:967845", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 18:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 19:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 19:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:989126", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 19:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 20:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 20:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:1010677", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 20:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 21:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 21:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1031955", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 21:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 22:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 22:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1054059", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 22:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-07 23:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-07 23:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1077328", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-07 23:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+/var/www/jobportal.huynhdous.com/scripts/cron_jobportal_lib.sh: line 46: 1103066 Segmentation fault      (core dumped) mysql --defaults-extra-file="$defaults_file" --batch --raw "$@" "$DB_NAME"
+ERROR 2003 (HY000): Can't connect to MySQL server on 'www.huynhdous.com:3306' (111)
+[2026-05-08 02:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 02:00:03 UTC] process applicant queue limit=25
+{"worker_id": "venus:27849", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 02:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 03:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 03:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:52748", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 03:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 04:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 04:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:79119", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 04:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 05:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 05:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:107650", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 05:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 06:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 06:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:132721", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 06:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 07:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 07:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:154683", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 07:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 08:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 08:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:176878", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 08:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 09:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 09:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:198983", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 09:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 10:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 10:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:220915", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 10:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 11:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 11:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:242773", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 11:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 12:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 12:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:265822", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 12:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 13:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 13:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:288194", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 13:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 14:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 14:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:312147", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 14:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 15:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 15:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:335101", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 15:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 16:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 16:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:359606", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 16:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 17:00:03 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 17:00:03 UTC] process applicant queue limit=25
+{"worker_id": "venus:381031", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 17:00:04 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 18:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 18:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:402766", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 18:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 19:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 19:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:424146", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 19:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 20:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 20:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:445450", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 20:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 21:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 21:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:466702", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 21:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 21:50:22 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 21:50:22 UTC] process applicant queue limit=25
+{"queue_id": 2122, "status": "completed", "result": {"applicant_match_score_id": 14786, "applicant_pool_id": 1025, "job_post_id": 4339, "overall_score": 2.78, "rating_label": "Poor Match", "recommendation": "not_recommended", "initial_evaluation_label": "Poor Match", "tree_terminal_node_key": "required_skill_low", "tree_terminal_node_label": "Low Required Skill Match", "recruiter_review_status": "pending_review"}}
+{"worker_id": "venus:489070", "claimed": 1, "processed": 1, "failed": 0}
+[2026-05-08 21:50:24 UTC] promote scored applicants limit=25
+promoted_count
+1
+applicant_pool_id	applicant_match_score_id	candidate_id	candidate_match_score_id	promoted_utc
+1025	14786	181445084	214	2026-05-08 21:50:24
+[2026-05-08 22:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 22:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:492967", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 22:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-08 23:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-08 23:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:518777", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-08 23:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 00:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 00:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:543575", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 00:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 01:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 01:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:566111", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 01:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 02:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 02:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:588030", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 02:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 03:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 03:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:609869", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 03:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 04:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 04:00:02 UTC] process applicant queue limit=25
+{"queue_id": 2123, "status": "completed", "result": {"applicant_match_score_id": 14787, "applicant_pool_id": 1026, "job_post_id": 4328, "overall_score": 6.15, "rating_label": "Possible Match", "recommendation": "needs_review", "initial_evaluation_label": "Possible Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2124, "status": "completed", "result": {"applicant_match_score_id": 14788, "applicant_pool_id": 1027, "job_post_id": 4328, "overall_score": 8.69, "rating_label": "Strong Match", "recommendation": "recommend", "initial_evaluation_label": "Strong Match", "tree_terminal_node_key": "high_skill_strong_experience", "tree_terminal_node_label": "Excellent Match Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2125, "status": "completed", "result": {"applicant_match_score_id": 14789, "applicant_pool_id": 1028, "job_post_id": 4328, "overall_score": 7.87, "rating_label": "Good Match", "recommendation": "maybe", "initial_evaluation_label": "Good Match", "tree_terminal_node_key": "high_skill_strong_experience", "tree_terminal_node_label": "Excellent Match Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2126, "status": "completed", "result": {"applicant_match_score_id": 14790, "applicant_pool_id": 1029, "job_post_id": 4354, "overall_score": 6.95, "rating_label": "Possible Match", "recommendation": "needs_review", "initial_evaluation_label": "Possible Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"worker_id": "venus:632033", "claimed": 4, "processed": 4, "failed": 0}
+[2026-05-09 04:00:03 UTC] promote scored applicants limit=25
+promoted_count
+4
+applicant_pool_id	applicant_match_score_id	candidate_id	candidate_match_score_id	promoted_utc
+1026	14787	181445088	218	2026-05-09 04:00:04
+1027	14788	181445085	215	2026-05-09 04:00:04
+1028	14789	181445086	216	2026-05-09 04:00:04
+1029	14790	181445087	217	2026-05-09 04:00:04
+[2026-05-09 05:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 05:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:654112", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 05:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 06:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 06:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:676710", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 06:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 07:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 07:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:703067", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 07:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 08:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 08:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:725071", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 08:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 09:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 09:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:747814", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 09:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 10:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 10:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:769873", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 10:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 11:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 11:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:791923", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 11:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 12:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 12:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:815238", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 12:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 13:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 13:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:837647", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 13:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 14:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 14:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:859837", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 14:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 15:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 15:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:882108", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 15:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 16:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 16:00:01 UTC] process applicant queue limit=25
+incorrect startxref pointer(1)
+parsing for Object Streams
+incorrect startxref pointer(1)
+parsing for Object Streams
+{"queue_id": 2127, "status": "completed", "result": {"applicant_match_score_id": 14791, "applicant_pool_id": 1030, "job_post_id": 4330, "overall_score": 4.79, "rating_label": "Weak Match", "recommendation": "not_recommended", "initial_evaluation_label": "Weak Match", "tree_terminal_node_key": "medium_skill_review", "tree_terminal_node_label": "Needs Recruiter Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2128, "status": "completed", "result": {"applicant_match_score_id": 14792, "applicant_pool_id": 1031, "job_post_id": 4330, "overall_score": 5.35, "rating_label": "Weak Match", "recommendation": "not_recommended", "initial_evaluation_label": "Weak Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2129, "status": "completed", "result": {"applicant_match_score_id": 14793, "applicant_pool_id": 1032, "job_post_id": 4330, "overall_score": 5.85, "rating_label": "Weak Match", "recommendation": "not_recommended", "initial_evaluation_label": "Weak Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2130, "status": "completed", "result": {"applicant_match_score_id": 14794, "applicant_pool_id": 1033, "job_post_id": 4330, "overall_score": 4.2, "rating_label": "Weak Match", "recommendation": "not_recommended", "initial_evaluation_label": "Weak Match", "tree_terminal_node_key": "required_skill_low", "tree_terminal_node_label": "Low Required Skill Match", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2131, "status": "completed", "result": {"applicant_match_score_id": 14795, "applicant_pool_id": 1034, "job_post_id": 4330, "overall_score": 7.77, "rating_label": "Good Match", "recommendation": "maybe", "initial_evaluation_label": "Good Match", "tree_terminal_node_key": "high_skill_moderate_experience", "tree_terminal_node_label": "Strong Match Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2132, "status": "completed", "result": {"applicant_match_score_id": 14796, "applicant_pool_id": 1035, "job_post_id": 4330, "overall_score": 6.73, "rating_label": "Possible Match", "recommendation": "needs_review", "initial_evaluation_label": "Possible Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2133, "status": "completed", "result": {"applicant_match_score_id": 14797, "applicant_pool_id": 1036, "job_post_id": 4330, "overall_score": 6.83, "rating_label": "Possible Match", "recommendation": "needs_review", "initial_evaluation_label": "Possible Match", "tree_terminal_node_key": "high_skill_moderate_experience", "tree_terminal_node_label": "Strong Match Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2134, "status": "completed", "result": {"applicant_match_score_id": 14798, "applicant_pool_id": 1037, "job_post_id": 4341, "overall_score": 5.77, "rating_label": "Weak Match", "recommendation": "not_recommended", "initial_evaluation_label": "Weak Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2135, "status": "completed", "result": {"applicant_match_score_id": 14799, "applicant_pool_id": 1038, "job_post_id": 4341, "overall_score": 2.78, "rating_label": "Poor Match", "recommendation": "not_recommended", "initial_evaluation_label": "Poor Match", "tree_terminal_node_key": "required_skill_low", "tree_terminal_node_label": "Low Required Skill Match", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2136, "status": "completed", "result": {"applicant_match_score_id": 14800, "applicant_pool_id": 1039, "job_post_id": 4341, "overall_score": 5.81, "rating_label": "Weak Match", "recommendation": "not_recommended", "initial_evaluation_label": "Weak Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2137, "status": "completed", "result": {"applicant_match_score_id": 14801, "applicant_pool_id": 1040, "job_post_id": 4341, "overall_score": 6.25, "rating_label": "Possible Match", "recommendation": "needs_review", "initial_evaluation_label": "Possible Match", "tree_terminal_node_key": "high_skill_moderate_experience", "tree_terminal_node_label": "Strong Match Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2138, "status": "completed", "result": {"applicant_match_score_id": 14802, "applicant_pool_id": 1041, "job_post_id": 4341, "overall_score": 5.67, "rating_label": "Weak Match", "recommendation": "not_recommended", "initial_evaluation_label": "Weak Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2139, "status": "completed", "result": {"applicant_match_score_id": 14803, "applicant_pool_id": 1042, "job_post_id": 4346, "overall_score": 7.62, "rating_label": "Good Match", "recommendation": "maybe", "initial_evaluation_label": "Good Match", "tree_terminal_node_key": "high_skill_moderate_experience", "tree_terminal_node_label": "Strong Match Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2140, "status": "completed", "result": {"applicant_match_score_id": 14804, "applicant_pool_id": 1043, "job_post_id": 4346, "overall_score": 6.39, "rating_label": "Possible Match", "recommendation": "needs_review", "initial_evaluation_label": "Possible Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2141, "status": "completed", "result": {"applicant_match_score_id": 14805, "applicant_pool_id": 1044, "job_post_id": 4346, "overall_score": 6.08, "rating_label": "Possible Match", "recommendation": "needs_review", "initial_evaluation_label": "Possible Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2142, "status": "completed", "result": {"applicant_match_score_id": 14806, "applicant_pool_id": 1045, "job_post_id": 4346, "overall_score": 6.59, "rating_label": "Possible Match", "recommendation": "needs_review", "initial_evaluation_label": "Possible Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"worker_id": "venus:906914", "claimed": 16, "processed": 16, "failed": 0}
+[2026-05-09 16:00:05 UTC] promote scored applicants limit=25
+promoted_count
+16
+applicant_pool_id	applicant_match_score_id	candidate_id	candidate_match_score_id	promoted_utc
+1030	14791	181445102	232	2026-05-09 16:00:05
+1031	14792	181445101	231	2026-05-09 16:00:05
+1032	14793	181445097	227	2026-05-09 16:00:05
+1033	14794	181445103	233	2026-05-09 16:00:05
+1034	14795	181445089	219	2026-05-09 16:00:05
+1035	14796	181445092	222	2026-05-09 16:00:05
+1036	14797	181445091	221	2026-05-09 16:00:05
+1037	14798	181445099	229	2026-05-09 16:00:05
+1038	14799	181445104	234	2026-05-09 16:00:05
+1039	14800	181445098	228	2026-05-09 16:00:05
+1040	14801	181445095	225	2026-05-09 16:00:05
+1041	14802	181445100	230	2026-05-09 16:00:05
+1042	14803	181445090	220	2026-05-09 16:00:05
+1043	14804	181445094	224	2026-05-09 16:00:05
+1044	14805	181445096	226	2026-05-09 16:00:05
+1045	14806	181445093	223	2026-05-09 16:00:05
+[2026-05-09 17:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 17:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:931371", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 17:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 18:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 18:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:956478", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 18:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 19:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 19:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:980834", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 19:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 20:00:03 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 20:00:03 UTC] process applicant queue limit=25
+{"worker_id": "venus:1004760", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 20:00:04 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 21:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 21:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:1026462", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 21:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 22:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 22:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:1048245", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 22:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-09 23:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-09 23:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1069861", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-09 23:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 00:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 00:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:1094164", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 00:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 01:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 01:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1115963", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 01:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 02:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 02:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1138122", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 02:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 03:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 03:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1160260", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 03:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 04:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 04:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:1182428", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 04:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 05:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 05:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1204263", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 05:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 06:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 06:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1226758", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 06:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 07:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 07:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:1248959", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 07:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 08:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 08:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1270790", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 08:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 09:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 09:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1292564", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 09:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 10:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 10:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1314795", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 10:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 11:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 11:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1337477", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 11:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 12:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 12:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1359799", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 12:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 13:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 13:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1381690", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 13:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 14:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 14:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:1403455", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 14:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 15:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 15:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1425347", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 15:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 16:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 16:00:01 UTC] process applicant queue limit=25
+{"queue_id": 2143, "status": "completed", "result": {"applicant_match_score_id": 14807, "applicant_pool_id": 1046, "job_post_id": 4330, "overall_score": 2.88, "rating_label": "Poor Match", "recommendation": "not_recommended", "initial_evaluation_label": "Poor Match", "tree_terminal_node_key": "required_skill_low", "tree_terminal_node_label": "Low Required Skill Match", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2144, "status": "completed", "result": {"applicant_match_score_id": 14808, "applicant_pool_id": 1047, "job_post_id": 4330, "overall_score": 6.09, "rating_label": "Possible Match", "recommendation": "needs_review", "initial_evaluation_label": "Possible Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2145, "status": "completed", "result": {"applicant_match_score_id": 14809, "applicant_pool_id": 1048, "job_post_id": 4330, "overall_score": 7.64, "rating_label": "Good Match", "recommendation": "maybe", "initial_evaluation_label": "Good Match", "tree_terminal_node_key": "high_skill_moderate_experience", "tree_terminal_node_label": "Strong Match Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2146, "status": "completed", "result": {"applicant_match_score_id": 14810, "applicant_pool_id": 1049, "job_post_id": 4330, "overall_score": 6.89, "rating_label": "Possible Match", "recommendation": "needs_review", "initial_evaluation_label": "Possible Match", "tree_terminal_node_key": "high_skill_moderate_experience", "tree_terminal_node_label": "Strong Match Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2147, "status": "completed", "result": {"applicant_match_score_id": 14811, "applicant_pool_id": 1050, "job_post_id": 4330, "overall_score": 6.13, "rating_label": "Possible Match", "recommendation": "needs_review", "initial_evaluation_label": "Possible Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2148, "status": "completed", "result": {"applicant_match_score_id": 14812, "applicant_pool_id": 1051, "job_post_id": 4330, "overall_score": 5.23, "rating_label": "Weak Match", "recommendation": "not_recommended", "initial_evaluation_label": "Weak Match", "tree_terminal_node_key": "medium_skill_review", "tree_terminal_node_label": "Needs Recruiter Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2149, "status": "completed", "result": {"applicant_match_score_id": 14813, "applicant_pool_id": 1052, "job_post_id": 4330, "overall_score": 6.23, "rating_label": "Possible Match", "recommendation": "needs_review", "initial_evaluation_label": "Possible Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2150, "status": "completed", "result": {"applicant_match_score_id": 14814, "applicant_pool_id": 1053, "job_post_id": 4330, "overall_score": 4.19, "rating_label": "Weak Match", "recommendation": "not_recommended", "initial_evaluation_label": "Weak Match", "tree_terminal_node_key": "required_skill_low", "tree_terminal_node_label": "Low Required Skill Match", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2151, "status": "completed", "result": {"applicant_match_score_id": 14815, "applicant_pool_id": 1054, "job_post_id": 4330, "overall_score": 3.81, "rating_label": "Poor Match", "recommendation": "not_recommended", "initial_evaluation_label": "Poor Match", "tree_terminal_node_key": "required_skill_low", "tree_terminal_node_label": "Low Required Skill Match", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2152, "status": "completed", "result": {"applicant_match_score_id": 14816, "applicant_pool_id": 1055, "job_post_id": 4330, "overall_score": 7.97, "rating_label": "Good Match", "recommendation": "maybe", "initial_evaluation_label": "Good Match", "tree_terminal_node_key": "high_skill_moderate_experience", "tree_terminal_node_label": "Strong Match Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2153, "status": "completed", "result": {"applicant_match_score_id": 14817, "applicant_pool_id": 1056, "job_post_id": 4330, "overall_score": 8.28, "rating_label": "Strong Match", "recommendation": "recommend", "initial_evaluation_label": "Strong Match", "tree_terminal_node_key": "high_skill_moderate_experience", "tree_terminal_node_label": "Strong Match Segment", "recruiter_review_status": "pending_review"}}
+{"queue_id": 2154, "status": "completed", "result": {"applicant_match_score_id": 14818, "applicant_pool_id": 1057, "job_post_id": 4330, "overall_score": 6.3, "rating_label": "Possible Match", "recommendation": "needs_review", "initial_evaluation_label": "Possible Match", "tree_terminal_node_key": "high_skill_weak_experience", "tree_terminal_node_label": "Good Match / Review Segment", "recruiter_review_status": "pending_review"}}
+{"worker_id": "venus:1447272", "claimed": 12, "processed": 12, "failed": 0}
+[2026-05-10 16:00:04 UTC] promote scored applicants limit=25
+promoted_count
+12
+applicant_pool_id	applicant_match_score_id	candidate_id	candidate_match_score_id	promoted_utc
+1047	14808	181445112	242	2026-05-10 16:00:04
+1048	14809	181445107	237	2026-05-10 16:00:04
+1049	14810	181445108	238	2026-05-10 16:00:04
+1050	14811	181445111	241	2026-05-10 16:00:04
+1051	14812	181445113	243	2026-05-10 16:00:04
+1052	14813	181445110	240	2026-05-10 16:00:04
+1055	14816	181445106	236	2026-05-10 16:00:04
+1056	14817	181445105	235	2026-05-10 16:00:04
+1057	14818	181445109	239	2026-05-10 16:00:04
+1046	14807	181445116	246	2026-05-10 16:00:05
+1053	14814	181445114	244	2026-05-10 16:00:05
+1054	14815	181445115	245	2026-05-10 16:00:05
+[2026-05-10 17:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 17:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:1468820", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 17:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 18:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 18:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1490993", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 18:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 19:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 19:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1512548", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 19:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 20:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 20:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:1534246", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 20:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 21:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 21:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:1556426", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 21:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 22:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 22:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1578875", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 22:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-10 23:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-10 23:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1600904", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-10 23:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-11 00:00:02 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-11 00:00:02 UTC] process applicant queue limit=25
+{"worker_id": "venus:1623209", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-11 00:00:03 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-11 01:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-11 01:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1644985", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-11 01:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0
+[2026-05-11 02:00:01 UTC] enqueue new applicant arrivals limit=25
+queued_count
+0
+[2026-05-11 02:00:01 UTC] process applicant queue limit=25
+{"worker_id": "venus:1667103", "claimed": 0, "processed": 0, "failed": 0}
+[2026-05-11 02:00:02 UTC] promote scored applicants limit=25
+promoted_count
+0

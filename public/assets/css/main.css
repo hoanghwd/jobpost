@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #1f2937;
+}
+
+.page-index {
+    max-width: 960px;
+    margin: 48px auto;
+    padding: 0 16px;
+}
+
+.page-index h1 {
+    margin: 0 0 12px;
+    font-size: 2rem;
+}
+
+.page-index p {
+    margin: 0;
+    font-size: 1rem;
+    color: #4b5563;
+}

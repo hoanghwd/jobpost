@@ -1,0 +1,22 @@
+# jobPortal cron jobs
+# Install for the hdo user with:
+#   crontab /var/www/jobportal.huynhdous.com/config/cron/jobportal.crontab.example
+# Or merge these lines into the existing crontab with:
+#   crontab -e
+
+SHELL=/bin/bash
+PROJECT_ROOT=/var/www/jobportal.huynhdous.com
+CONDA_PROFILE=/home/hdo/miniconda3/etc/profile.d/conda.sh
+CONDA_ENV=jobPortal
+
+# Main applicant intake pipeline:
+# enqueue new arrivals -> parse/score applicant resumes -> promote scored applicants to candidates.
+# Runs every 5 minutes, controlled by limits so it never tries to process the whole applicant pool at once.
+*/5 * * * * /var/www/jobportal.huynhdous.com/scripts/cron_applicant_intake_pipeline.sh 25 25 25 >> /var/log/jobportal_applicant_intake_pipeline.log 2>&1
+
+# Optional candidate reprocessing queue.
+# Enable this only when you intentionally enqueue candidate_processing_queue jobs for candidate re-score/re-evaluation.
+# */10 * * * * /var/www/jobportal.huynhdous.com/scripts/cron_process_candidate_queue.sh 10 >> /var/log/jobportal_candidate_processing.log 2>&1
+
+# Optional queue summary heartbeat for debugging. Keep disabled in normal production unless you want the logs.
+# */30 * * * * /var/www/jobportal.huynhdous.com/scripts/cron_queue_summary.sh >> /var/log/jobportal_queue_summary.log 2>&1
