@@ -27,6 +27,21 @@
     if ($payText !== '' && $paySuffix !== '') {
         $payText .= ' ' . $paySuffix;
     }
+    $workModeRaw = trim((string) ($selectedJob['work_mode'] ?? ''));
+    $workTypeTokens = array_values(array_filter(array_map('trim', preg_split('/[,\|\/]+/', $workModeRaw ?: '') ?: [])));
+    $workTypeLabels = [];
+    foreach ($workTypeTokens as $token) {
+        $normalized = str_replace('_', ' ', strtolower($token));
+        if ($normalized === 'full time' || $normalized === 'part time') {
+            $label = ucwords($normalized);
+            $label = str_replace(' ', '-', $label);
+        } else {
+            $label = ucwords($normalized);
+        }
+        if ($label !== '') {
+            $workTypeLabels[] = $label;
+        }
+    }
     $descriptionParts = [
         (string) ($selectedJob['description_text'] ?? ''),
         (string) ($selectedJob['qualifications'] ?? ''),
@@ -52,7 +67,19 @@
         </div>
     </header>
     <article class="detail-body">
-        <h2>Full job description</h2>
+        <?php if ($workTypeLabels !== []): ?>
+            <section class="job-details-panel" aria-label="Job details">
+                <h2>Job details</h2>
+                <div class="job-type-row">
+                    <p class="job-type-title"><i class="bi bi-briefcase"></i> Job type</p>
+                    <div class="job-type-chips">
+                        <?php foreach ($workTypeLabels as $workTypeLabel): ?>
+                            <span class="job-type-chip"><?= htmlspecialchars($workTypeLabel, ENT_QUOTES, 'UTF-8'); ?></span>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </section>
+        <?php endif; ?>
         <?php if (trim($descriptionRaw) === ''): ?>
             <p>This job does not have a description yet.</p>
         <?php else: ?>

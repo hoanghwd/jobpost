@@ -11,7 +11,7 @@
  Target Server Version : 80045
  File Encoding         : 65001
 
- Date: 11/05/2026 20:59:09
+ Date: 12/05/2026 10:01:41
 */
 
 SET NAMES utf8mb4;
@@ -179,7 +179,7 @@ CREATE TABLE `applicant_intake_pipeline_runs`  (
   PRIMARY KEY (`pipeline_run_id`) USING BTREE,
   INDEX `idx_aipr_status_started`(`run_status`, `started_utc`) USING BTREE,
   INDEX `idx_aipr_started`(`started_utc`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 125 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 160 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for applicant_job_match_adjustments
@@ -211,7 +211,7 @@ CREATE TABLE `applicant_job_match_adjustments`  (
   INDEX `idx_ajma_category`(`adjustment_category`) USING BTREE,
   INDEX `idx_ajma_review`(`review_flag`) USING BTREE,
   CONSTRAINT `fk_ajma_score` FOREIGN KEY (`applicant_match_score_id`) REFERENCES `applicant_job_match_scores` (`applicant_match_score_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 59272 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 59869 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for applicant_job_match_requirement_evaluations
@@ -253,7 +253,7 @@ CREATE TABLE `applicant_job_match_requirement_evaluations`  (
   INDEX `idx_ajmre_result`(`match_result`) USING BTREE,
   INDEX `idx_ajmre_review`(`review_flag`) USING BTREE,
   CONSTRAINT `fk_ajmre_score` FOREIGN KEY (`applicant_match_score_id`) REFERENCES `applicant_job_match_scores` (`applicant_match_score_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 141742 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 143761 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for applicant_job_match_review_flags
@@ -279,7 +279,7 @@ CREATE TABLE `applicant_job_match_review_flags`  (
   INDEX `idx_ajmrf_score`(`applicant_match_score_id`, `is_resolved`) USING BTREE,
   INDEX `idx_ajmrf_severity`(`flag_severity`) USING BTREE,
   CONSTRAINT `fk_ajmrf_score` FOREIGN KEY (`applicant_match_score_id`) REFERENCES `applicant_job_match_scores` (`applicant_match_score_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 63667 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 64034 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for applicant_job_match_scores
@@ -359,7 +359,7 @@ CREATE TABLE `applicant_job_match_scores`  (
   CONSTRAINT `fk_ajms_job_extraction` FOREIGN KEY (`job_match_extraction_id`) REFERENCES `job_post_match_extractions` (`job_match_extraction_id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `fk_ajms_parse` FOREIGN KEY (`applicant_parse_id`) REFERENCES `job_applicant_resume_parses` (`applicant_parse_id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `fk_ajms_resume` FOREIGN KEY (`applicant_resume_id`) REFERENCES `job_applicant_resumes` (`applicant_resume_id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 14819 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14968 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for applicant_processing_queue
@@ -395,7 +395,7 @@ CREATE TABLE `applicant_processing_queue`  (
   INDEX `idx_apq_office_status`(`office_id`, `queue_status`) USING BTREE,
   CONSTRAINT `fk_apq_applicant` FOREIGN KEY (`applicant_pool_id`) REFERENCES `job_applicant_pool` (`applicant_pool_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `fk_apq_job` FOREIGN KEY (`job_post_id`) REFERENCES `job_posts` (`job_post_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2155 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2219 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for applicant_remove_reasons
@@ -412,7 +412,7 @@ CREATE TABLE `applicant_remove_reasons`  (
   PRIMARY KEY (`reason_id`) USING BTREE,
   UNIQUE INDEX `uq_applicant_remove_reasons_key`(`reason_key`) USING BTREE,
   INDEX `idx_applicant_remove_reasons_active_sort`(`is_active`, `sort_order`, `reason_label`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for applicant_resumes
@@ -684,7 +684,7 @@ CREATE TABLE `candidate_job_match_adjustments`  (
   INDEX `idx_match_adjustments_key`(`adjustment_key`) USING BTREE,
   INDEX `idx_match_adjustments_review`(`review_flag`, `triggered_disqualifier`) USING BTREE,
   CONSTRAINT `fk_match_adjustments_match` FOREIGN KEY (`match_score_id`) REFERENCES `candidate_job_match_scores` (`match_score_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1666 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2105 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for candidate_job_match_requirement_evaluations
@@ -728,7 +728,7 @@ CREATE TABLE `candidate_job_match_requirement_evaluations`  (
   INDEX `idx_requirement_eval_result`(`match_result`, `match_strength`) USING BTREE,
   INDEX `idx_requirement_eval_review`(`review_flag`, `triggered_disqualifier`) USING BTREE,
   CONSTRAINT `fk_requirement_eval_match` FOREIGN KEY (`match_score_id`) REFERENCES `candidate_job_match_scores` (`match_score_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1453 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3266 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for candidate_job_match_review_flags
@@ -756,7 +756,7 @@ CREATE TABLE `candidate_job_match_review_flags`  (
   INDEX `idx_review_flags_resolved_by`(`resolved_by_user_id`) USING BTREE,
   CONSTRAINT `fk_review_flags_match` FOREIGN KEY (`match_score_id`) REFERENCES `candidate_job_match_scores` (`match_score_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `fk_review_flags_resolved_by` FOREIGN KEY (`resolved_by_user_id`) REFERENCES `users` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 729 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 942 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for candidate_job_match_reviews
@@ -896,7 +896,7 @@ CREATE TABLE `candidate_job_match_scores`  (
   CONSTRAINT `fk_cjms_reviewed_by` FOREIGN KEY (`reviewed_by_user_id`) REFERENCES `users` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_cjms_revoked_by` FOREIGN KEY (`revoked_by_user_id`) REFERENCES `users` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_cjms_scoring_profile` FOREIGN KEY (`scoring_profile_id`) REFERENCES `office_candidate_scoring_profiles` (`scoring_profile_id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 246 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 310 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for candidate_job_match_tree_path
@@ -1023,7 +1023,7 @@ CREATE TABLE `candidate_resume_parses`  (
   INDEX `idx_crp_degree`(`highest_degree_level`, `highest_degree_rank`) USING BTREE,
   CONSTRAINT `fk_candidate_resume_parses_candidate` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`candidate_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_candidate_resume_parses_resume` FOREIGN KEY (`resume_id`) REFERENCES `candidate_resumes` (`resume_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 124 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 188 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for candidate_resume_skills
@@ -1046,7 +1046,7 @@ CREATE TABLE `candidate_resume_skills`  (
   CONSTRAINT `fk_candidate_resume_skills_candidate` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`candidate_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_candidate_resume_skills_parse` FOREIGN KEY (`parse_id`) REFERENCES `candidate_resume_parses` (`parse_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_candidate_resume_skills_resume` FOREIGN KEY (`resume_id`) REFERENCES `candidate_resumes` (`resume_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 883 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1319 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for candidate_resumes
@@ -1070,7 +1070,7 @@ CREATE TABLE `candidate_resumes`  (
   INDEX `idx_candidate_resumes_active`(`candidate_id`, `is_active`) USING BTREE,
   INDEX `idx_candidate_resumes_text_hash`(`text_hash`) USING BTREE,
   CONSTRAINT `fk_candidate_resumes_candidate` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`candidate_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 108 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 172 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for candidates
@@ -1133,7 +1133,7 @@ CREATE TABLE `candidates`  (
   INDEX `idx_candidates_account_created`(`account_fk`, `created_utc`) USING BTREE,
   INDEX `idx_candidates_account_status_created`(`account_fk`, `status`, `created_utc`) USING BTREE,
   CONSTRAINT `fk_candidates_job_board_fk` FOREIGN KEY (`job_board_fk`) REFERENCES `job_boards` (`job_board_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 181445117 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 181445180 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for conversation_assignments
@@ -1455,7 +1455,7 @@ CREATE TABLE `job_applicant_pool`  (
   INDEX `idx_job_applicant_pool_account_removed_received`(`account_id`, `removed`, `received_utc`, `applicant_pool_id`) USING BTREE,
   CONSTRAINT `fk_jap_job_post` FOREIGN KEY (`job_post_id`) REFERENCES `job_posts` (`job_post_id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `fk_jap_removed_reason` FOREIGN KEY (`removed_reason_id`) REFERENCES `applicant_remove_reasons` (`reason_id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1058 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1124 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for job_applicant_resume_parses
@@ -1511,7 +1511,7 @@ CREATE TABLE `job_applicant_resume_parses`  (
   CONSTRAINT `fk_jarp_applicant` FOREIGN KEY (`applicant_pool_id`) REFERENCES `job_applicant_pool` (`applicant_pool_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `fk_jarp_job` FOREIGN KEY (`job_post_id`) REFERENCES `job_posts` (`job_post_id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `fk_jarp_resume` FOREIGN KEY (`applicant_resume_id`) REFERENCES `job_applicant_resumes` (`applicant_resume_id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 13759 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13909 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for job_applicant_resume_skills
@@ -1535,7 +1535,7 @@ CREATE TABLE `job_applicant_resume_skills`  (
   CONSTRAINT `fk_jars_applicant` FOREIGN KEY (`applicant_pool_id`) REFERENCES `job_applicant_pool` (`applicant_pool_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `fk_jars_job` FOREIGN KEY (`job_post_id`) REFERENCES `job_posts` (`job_post_id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `fk_jars_parse` FOREIGN KEY (`applicant_parse_id`) REFERENCES `job_applicant_resume_parses` (`applicant_parse_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5434 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6226 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for job_applicant_resumes
@@ -1561,7 +1561,7 @@ CREATE TABLE `job_applicant_resumes`  (
   INDEX `idx_jar_job`(`job_post_id`) USING BTREE,
   CONSTRAINT `fk_jar_applicant` FOREIGN KEY (`applicant_pool_id`) REFERENCES `job_applicant_pool` (`applicant_pool_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `fk_jar_job` FOREIGN KEY (`job_post_id`) REFERENCES `job_posts` (`job_post_id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1106 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1173 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for job_boards
@@ -1628,7 +1628,7 @@ CREATE TABLE `job_post_match_extractions`  (
   INDEX `idx_job_match_extractions_job`(`job_post_id`) USING BTREE,
   INDEX `idx_job_match_extractions_status`(`extract_status`) USING BTREE,
   CONSTRAINT `fk_job_match_extractions_job_post` FOREIGN KEY (`job_post_id`) REFERENCES `job_posts` (`job_post_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for job_posts
@@ -1650,7 +1650,7 @@ CREATE TABLE `job_posts`  (
   `pay_rate_min` decimal(12, 2) NULL DEFAULT NULL,
   `pay_rate_max` decimal(12, 2) NULL DEFAULT NULL,
   `pay_interval` enum('hourly','salary') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `work_mode` enum('in_office','hybrid','remote','field') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `work_mode` enum('in_office','hybrid','remote','field','full_time','part_time','contract_1099') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `expiration_date` date NULL DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT 1,
   `channel_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -2396,7 +2396,7 @@ CREATE TABLE `user_page_permission`  (
   INDEX `idx_user_page_permission_active_view`(`is_active`, `can_view`) USING BTREE,
   CONSTRAINT `fk_user_page_permission_nav_item` FOREIGN KEY (`nav_item_id`) REFERENCES `nav_items` (`nav_item_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_user_page_permission_role` FOREIGN KEY (`role_id`) REFERENCES `user_roles` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 55 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for user_roles
@@ -5208,6 +5208,30 @@ delimiter ;
 -- ----------------------------
 -- Triggers structure for table applicant_resumes
 -- ----------------------------
+DROP TRIGGER IF EXISTS `trg_applicant_resumes_max3_before_insert`;
+delimiter ;;
+CREATE TRIGGER `trg_applicant_resumes_max3_before_insert` BEFORE INSERT ON `applicant_resumes` FOR EACH ROW BEGIN
+  DECLARE resume_count INT DEFAULT 0;
+
+  IF NEW.deleted_utc IS NULL THEN
+    SELECT COUNT(*)
+      INTO resume_count
+    FROM `applicant_resumes`
+    WHERE applicant_account_id = NEW.applicant_account_id
+      AND deleted_utc IS NULL;
+
+    IF resume_count >= 3 THEN
+      SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Applicant account cannot have more than 3 active resumes.';
+    END IF;
+  END IF;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Triggers structure for table applicant_resumes
+-- ----------------------------
 DROP TRIGGER IF EXISTS `trg_applicant_resumes_max3_before_update`;
 delimiter ;;
 CREATE TRIGGER `trg_applicant_resumes_max3_before_update` BEFORE UPDATE ON `applicant_resumes` FOR EACH ROW BEGIN
@@ -5222,30 +5246,6 @@ CREATE TRIGGER `trg_applicant_resumes_max3_before_update` BEFORE UPDATE ON `appl
     WHERE applicant_account_id = NEW.applicant_account_id
       AND deleted_utc IS NULL
       AND applicant_resume_id <> OLD.applicant_resume_id;
-
-    IF resume_count >= 3 THEN
-      SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Applicant account cannot have more than 3 active resumes.';
-    END IF;
-  END IF;
-END
-;;
-delimiter ;
-
--- ----------------------------
--- Triggers structure for table applicant_resumes
--- ----------------------------
-DROP TRIGGER IF EXISTS `trg_applicant_resumes_max3_before_insert`;
-delimiter ;;
-CREATE TRIGGER `trg_applicant_resumes_max3_before_insert` BEFORE INSERT ON `applicant_resumes` FOR EACH ROW BEGIN
-  DECLARE resume_count INT DEFAULT 0;
-
-  IF NEW.deleted_utc IS NULL THEN
-    SELECT COUNT(*)
-      INTO resume_count
-    FROM `applicant_resumes`
-    WHERE applicant_account_id = NEW.applicant_account_id
-      AND deleted_utc IS NULL;
 
     IF resume_count >= 3 THEN
       SIGNAL SQLSTATE '45000'

@@ -128,6 +128,17 @@ if ($currentPath === '/company-reviews' || $currentTab === 'company-reviews') {
                     if ($cardPay !== '' && $paySuffix !== '') {
                         $cardPay .= ' ' . $paySuffix;
                     }
+                    $workModeRaw = trim((string) ($job['work_mode'] ?? ''));
+                    $workModeLabel = '';
+                    if ($workModeRaw !== '') {
+                        $workModeLabel = str_replace('_', ' ', strtolower($workModeRaw));
+                        if ($workModeLabel === 'full time' || $workModeLabel === 'part time') {
+                            $workModeLabel = ucwords($workModeLabel);
+                            $workModeLabel = str_replace(' ', '-', $workModeLabel);
+                        } else {
+                            $workModeLabel = ucwords($workModeLabel);
+                        }
+                    }
                     ?>
                     <a
                         class="job-card<?= $isActive ? ' selected' : ''; ?>"
@@ -138,13 +149,16 @@ if ($currentPath === '/company-reviews' || $currentTab === 'company-reviews') {
                         <h3><?= htmlspecialchars($titleWithId, ENT_QUOTES, 'UTF-8'); ?></h3>
                         <p class="company"><?= htmlspecialchars($companyText, ENT_QUOTES, 'UTF-8'); ?></p>
                         <p class="location"><i class="bi bi-geo-alt-fill"></i> <?= htmlspecialchars($locationText !== '' ? $locationText : 'Location not specified', ENT_QUOTES, 'UTF-8'); ?></p>
-                        <?php if ($cardPay !== ''): ?>
-                            <p class="pay-snippet"><?= htmlspecialchars($cardPay, ENT_QUOTES, 'UTF-8'); ?></p>
+                        <?php if ($cardPay !== '' || $workModeLabel !== ''): ?>
+                            <div class="meta-snippets">
+                                <?php if ($cardPay !== ''): ?>
+                                    <p class="pay-snippet"><?= htmlspecialchars($cardPay, ENT_QUOTES, 'UTF-8'); ?></p>
+                                <?php endif; ?>
+                                <?php if ($workModeLabel !== ''): ?>
+                                    <span class="worktype-snippet"><?= htmlspecialchars($workModeLabel, ENT_QUOTES, 'UTF-8'); ?></span>
+                                <?php endif; ?>
+                            </div>
                         <?php endif; ?>
-                        <div class="tags">
-                            <span><?= htmlspecialchars((string) ($job['channel_type'] ?? 'General'), ENT_QUOTES, 'UTF-8'); ?></span>
-                            <span><?= htmlspecialchars((string) ($job['workflow_type'] ?? 'standard'), ENT_QUOTES, 'UTF-8'); ?></span>
-                        </div>
                         <?php if ($summary !== ''): ?>
                             <p class="summary"><?= htmlspecialchars($summary, ENT_QUOTES, 'UTF-8'); ?>...</p>
                         <?php endif; ?>

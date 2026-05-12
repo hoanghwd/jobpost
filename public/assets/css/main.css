@@ -278,17 +278,20 @@ body {
     margin-top: 2px !important;
 }
 
-.tags {
+.meta-snippets {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 8px;
+    margin-top: 4px;
 }
 
-.tags span {
-    background: #efefef;
+.worktype-snippet {
+    display: inline-flex;
+    align-items: center;
+    background: #dff3e4;
+    color: #176f37;
     border-radius: 10px;
-    padding: 5px 10px;
+    padding: 4px 10px;
     font-size: 13px;
     font-weight: 600;
 }
@@ -383,6 +386,49 @@ body {
 
 .detail-body {
     padding: 16px;
+}
+
+.job-details-panel {
+    margin-bottom: 16px;
+}
+
+.job-details-panel h2 {
+    font-size: 24px;
+    margin: 0 0 12px;
+}
+
+.job-type-row {
+    padding-top: 2px;
+}
+
+.job-type-title {
+    margin: 0 0 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.job-type-title i {
+    margin-right: 8px;
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+.job-type-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.job-type-chip {
+    display: inline-flex;
+    align-items: center;
+    background: #dff3e4;
+    color: #176f37;
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-size: 15px;
+    font-weight: 700;
 }
 
 .detail-body h2 {
