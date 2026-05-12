@@ -57,6 +57,11 @@ SELECT
     jp.channel_type,
     jp.workflow_type,
     jp.description_text,
+    jp.qualifications,
+    jp.benefits,
+    jp.pay_rate_min,
+    jp.pay_rate_max,
+    jp.pay_interval,
     jp.created_utc,
     COALESCE(NULLIF(TRIM(a.accName), ''), NULLIF(TRIM(a.officeName), ''), CONCAT('Account #', jp.account_id)) AS company_name
 FROM job_posts jp
@@ -135,6 +140,11 @@ SELECT
     jp.channel_type,
     jp.workflow_type,
     jp.description_text,
+    jp.qualifications,
+    jp.benefits,
+    jp.pay_rate_min,
+    jp.pay_rate_max,
+    jp.pay_interval,
     jp.created_utc,
     COALESCE(NULLIF(TRIM(a.accName), ''), NULLIF(TRIM(a.officeName), ''), CONCAT('Account #', jp.account_id)) AS company_name
 FROM job_posts jp

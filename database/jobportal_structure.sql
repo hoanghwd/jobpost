@@ -11,7 +11,7 @@
  Target Server Version : 80045
  File Encoding         : 65001
 
- Date: 11/05/2026 12:39:40
+ Date: 11/05/2026 20:59:09
 */
 
 SET NAMES utf8mb4;
@@ -1645,6 +1645,13 @@ CREATE TABLE `job_posts`  (
   `state_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `country_code` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `description_text` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `qualifications` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `benefits` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `pay_rate_min` decimal(12, 2) NULL DEFAULT NULL,
+  `pay_rate_max` decimal(12, 2) NULL DEFAULT NULL,
+  `pay_interval` enum('hourly','salary') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `work_mode` enum('in_office','hybrid','remote','field') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `expiration_date` date NULL DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT 1,
   `channel_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `workflow_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'standard',
@@ -1653,7 +1660,8 @@ CREATE TABLE `job_posts`  (
   PRIMARY KEY (`job_post_id`) USING BTREE,
   INDEX `idx_job_posts_account_id`(`account_id`) USING BTREE,
   INDEX `idx_job_posts_office_id`(`office_id`) USING BTREE,
-  INDEX `idx_job_posts_active`(`active`) USING BTREE
+  INDEX `idx_job_posts_active`(`active`) USING BTREE,
+  INDEX `idx_job_posts_expiration_date`(`expiration_date`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4558 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -5200,30 +5208,6 @@ delimiter ;
 -- ----------------------------
 -- Triggers structure for table applicant_resumes
 -- ----------------------------
-DROP TRIGGER IF EXISTS `trg_applicant_resumes_max3_before_insert`;
-delimiter ;;
-CREATE TRIGGER `trg_applicant_resumes_max3_before_insert` BEFORE INSERT ON `applicant_resumes` FOR EACH ROW BEGIN
-  DECLARE resume_count INT DEFAULT 0;
-
-  IF NEW.deleted_utc IS NULL THEN
-    SELECT COUNT(*)
-      INTO resume_count
-    FROM `applicant_resumes`
-    WHERE applicant_account_id = NEW.applicant_account_id
-      AND deleted_utc IS NULL;
-
-    IF resume_count >= 3 THEN
-      SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Applicant account cannot have more than 3 active resumes.';
-    END IF;
-  END IF;
-END
-;;
-delimiter ;
-
--- ----------------------------
--- Triggers structure for table applicant_resumes
--- ----------------------------
 DROP TRIGGER IF EXISTS `trg_applicant_resumes_max3_before_update`;
 delimiter ;;
 CREATE TRIGGER `trg_applicant_resumes_max3_before_update` BEFORE UPDATE ON `applicant_resumes` FOR EACH ROW BEGIN
@@ -5238,6 +5222,30 @@ CREATE TRIGGER `trg_applicant_resumes_max3_before_update` BEFORE UPDATE ON `appl
     WHERE applicant_account_id = NEW.applicant_account_id
       AND deleted_utc IS NULL
       AND applicant_resume_id <> OLD.applicant_resume_id;
+
+    IF resume_count >= 3 THEN
+      SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Applicant account cannot have more than 3 active resumes.';
+    END IF;
+  END IF;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Triggers structure for table applicant_resumes
+-- ----------------------------
+DROP TRIGGER IF EXISTS `trg_applicant_resumes_max3_before_insert`;
+delimiter ;;
+CREATE TRIGGER `trg_applicant_resumes_max3_before_insert` BEFORE INSERT ON `applicant_resumes` FOR EACH ROW BEGIN
+  DECLARE resume_count INT DEFAULT 0;
+
+  IF NEW.deleted_utc IS NULL THEN
+    SELECT COUNT(*)
+      INTO resume_count
+    FROM `applicant_resumes`
+    WHERE applicant_account_id = NEW.applicant_account_id
+      AND deleted_utc IS NULL;
 
     IF resume_count >= 3 THEN
       SIGNAL SQLSTATE '45000'

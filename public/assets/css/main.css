@@ -266,6 +266,18 @@ body {
     color: #4b5563;
 }
 
+.pay-snippet {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 8px;
+    background: #edf5ff;
+    color: #0f4cbf;
+    font-size: 13px !important;
+    font-weight: 700;
+    padding: 4px 8px;
+    margin-top: 2px !important;
+}
+
 .tags {
     display: flex;
     flex-wrap: wrap;
@@ -316,6 +328,29 @@ body {
     margin: 0;
     font-size: 16px;
     color: #4b5563;
+}
+
+.pay-panel {
+    margin-top: 12px;
+    background: #f5f7fa;
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.pay-kicker {
+    margin: 0 0 4px;
+    font-size: 12px;
+    color: #4b5563;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.pay-value {
+    margin: 0;
+    font-size: 17px;
+    color: #111827;
+    font-weight: 700;
 }
 
 .detail-actions {

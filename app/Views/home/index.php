@@ -82,8 +82,52 @@ if ($currentPath === '/company-reviews' || $currentTab === 'company-reviews') {
                     $titleWithId = $titleText . ' (#' . $jobId . ')';
                     $companyText = (string) ($job['company_name'] ?? 'Unknown Company');
                     $locationText = trim((string) ($job['job_location'] ?: (($job['city'] ?? '') . ', ' . ($job['state_code'] ?? ''))));
-                    $summary = trim((string) ($job['description_text'] ?? ''));
-                    $summary = substr((string) (preg_replace('/\s+/', ' ', strip_tags($summary)) ?? ''), 0, 160);
+                    $summary = '';
+                    $benefitsRaw = (string) ($job['benefits'] ?? '');
+                    if (trim($benefitsRaw) !== '') {
+                        $benefitHighlights = [];
+                        if (preg_match_all('/<li\b[^>]*>(.*?)<\/li>/is', $benefitsRaw, $benefitMatches)) {
+                            foreach ($benefitMatches[1] as $benefitItem) {
+                                $plain = trim((string) (preg_replace('/\s+/', ' ', strip_tags((string) $benefitItem)) ?? ''));
+                                $plain = html_entity_decode($plain, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                                if ($plain !== '') {
+                                    $benefitHighlights[] = $plain;
+                                }
+                                if (count($benefitHighlights) >= 2) {
+                                    break;
+                                }
+                            }
+                        }
+
+                        if ($benefitHighlights !== []) {
+                            $summary = implode(' • ', $benefitHighlights);
+                        } else {
+                            $summary = substr((string) (preg_replace('/\s+/', ' ', strip_tags($benefitsRaw)) ?? ''), 0, 160);
+                            $summary = html_entity_decode($summary, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                        }
+                    }
+
+                    if ($summary === '') {
+                        $summary = trim((string) ($job['description_text'] ?? ''));
+                        $summary = substr((string) (preg_replace('/\s+/', ' ', strip_tags($summary)) ?? ''), 0, 160);
+                        $summary = html_entity_decode($summary, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                    }
+                    $payMin = isset($job['pay_rate_min']) ? (float) $job['pay_rate_min'] : null;
+                    $payMax = isset($job['pay_rate_max']) ? (float) $job['pay_rate_max'] : null;
+                    $payIntervalRaw = strtolower(trim((string) ($job['pay_interval'] ?? '')));
+                    $paySuffix = $payIntervalRaw === 'salary' ? 'a year' : ($payIntervalRaw === 'hourly' ? 'an hour' : '');
+                    $formatMoney = static fn (float $amount): string => '$' . number_format($amount, 2);
+                    $cardPay = '';
+                    if ($payMin !== null && $payMax !== null && $payMin > 0 && $payMax > 0) {
+                        $cardPay = $formatMoney(min($payMin, $payMax)) . ' - ' . $formatMoney(max($payMin, $payMax));
+                    } elseif ($payMin !== null && $payMin > 0) {
+                        $cardPay = 'From ' . $formatMoney($payMin);
+                    } elseif ($payMax !== null && $payMax > 0) {
+                        $cardPay = 'Up to ' . $formatMoney($payMax);
+                    }
+                    if ($cardPay !== '' && $paySuffix !== '') {
+                        $cardPay .= ' ' . $paySuffix;
+                    }
                     ?>
                     <a
                         class="job-card<?= $isActive ? ' selected' : ''; ?>"
@@ -94,6 +138,9 @@ if ($currentPath === '/company-reviews' || $currentTab === 'company-reviews') {
                         <h3><?= htmlspecialchars($titleWithId, ENT_QUOTES, 'UTF-8'); ?></h3>
                         <p class="company"><?= htmlspecialchars($companyText, ENT_QUOTES, 'UTF-8'); ?></p>
                         <p class="location"><i class="bi bi-geo-alt-fill"></i> <?= htmlspecialchars($locationText !== '' ? $locationText : 'Location not specified', ENT_QUOTES, 'UTF-8'); ?></p>
+                        <?php if ($cardPay !== ''): ?>
+                            <p class="pay-snippet"><?= htmlspecialchars($cardPay, ENT_QUOTES, 'UTF-8'); ?></p>
+                        <?php endif; ?>
                         <div class="tags">
                             <span><?= htmlspecialchars((string) ($job['channel_type'] ?? 'General'), ENT_QUOTES, 'UTF-8'); ?></span>
                             <span><?= htmlspecialchars((string) ($job['workflow_type'] ?? 'standard'), ENT_QUOTES, 'UTF-8'); ?></span>
