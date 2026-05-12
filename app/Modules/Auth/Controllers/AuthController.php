@@ -25,6 +25,140 @@ class AuthController
         require base_path('app/Views/layouts/main.php');
     }
 
+    public function showProfile(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (empty($_SESSION['auth']['is_logged_in'])) {
+            header('Location: /login');
+            exit;
+        }
+
+        $userModel = new User();
+        $applicantAccountId = (int) ($_SESSION['auth']['applicant']['applicant_account_id'] ?? 0);
+        $profile = $userModel->getApplicantProfile($applicantAccountId);
+        $resumes = $userModel->getApplicantResumes($applicantAccountId);
+        if ($profile === null) {
+            header('Location: /login');
+            exit;
+        }
+
+        $title = 'Candidate Profile';
+        ob_start();
+        require base_path('app/Views/auth/profile.php');
+        $content = (string) ob_get_clean();
+        require base_path('app/Views/layouts/main.php');
+    }
+
+    public function profileResumeAjax(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        header('Content-Type: application/json; charset=UTF-8');
+
+        if (empty($_SESSION['auth']['is_logged_in'])) {
+            $this->jsonFail('Not authenticated.', 401);
+        }
+
+        $applicantAccountId = (int) ($_SESSION['auth']['applicant']['applicant_account_id'] ?? 0);
+        if ($applicantAccountId <= 0) {
+            $this->jsonFail('Invalid account.', 422);
+        }
+
+        $action = trim((string) ($_POST['action'] ?? ''));
+        $resumeId = (int) ($_POST['resume_id'] ?? 0);
+        $userModel = new User();
+
+        if ($action === 'delete') {
+            $userModel->softDeleteApplicantResume($applicantAccountId, $resumeId);
+        } else {
+            $this->jsonFail('Unsupported action.', 422);
+        }
+
+        echo json_encode([
+            'ok' => true,
+            'message' => 'Resume updated.',
+            'resumes' => $userModel->getApplicantResumes($applicantAccountId),
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+
+    public function profileContentAjax(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        header('Content-Type: application/json; charset=UTF-8');
+
+        if (empty($_SESSION['auth']['is_logged_in'])) {
+            $this->jsonFail('Not authenticated.', 401);
+        }
+
+        $applicantAccountId = (int) ($_SESSION['auth']['applicant']['applicant_account_id'] ?? 0);
+        if ($applicantAccountId <= 0) {
+            $this->jsonFail('Invalid account.', 422);
+        }
+
+        $section = trim((string) ($_POST['section'] ?? ''));
+        $action = trim((string) ($_POST['action'] ?? ''));
+        $userModel = new User();
+
+        if ($section === 'summary') {
+            if ($action === 'save') {
+                $summaryHtml = $this->sanitizeHtml((string) ($_POST['summary_html'] ?? ''));
+                $userModel->saveProfileSummary($applicantAccountId, $summaryHtml === '' ? null : $summaryHtml);
+            } elseif ($action === 'remove') {
+                $userModel->saveProfileSummary($applicantAccountId, null);
+            } else {
+                $this->jsonFail('Unsupported action.', 422);
+            }
+        } elseif (in_array($section, ['work_experience', 'education'], true)) {
+            $column = $section === 'work_experience' ? 'work_experience_json' : 'education_json';
+            if ($action === 'save') {
+                $item = [
+                    'item_id' => trim((string) ($_POST['item_id'] ?? '')),
+                    'title' => trim((string) ($_POST['title'] ?? '')),
+                    'organization' => trim((string) ($_POST['organization'] ?? '')),
+                    'location' => trim((string) ($_POST['location'] ?? '')),
+                    'date_range' => trim((string) ($_POST['date_range'] ?? '')),
+                    'start_month' => trim((string) ($_POST['start_month'] ?? '')),
+                    'start_year' => trim((string) ($_POST['start_year'] ?? '')),
+                    'end_month' => trim((string) ($_POST['end_month'] ?? '')),
+                    'end_year' => trim((string) ($_POST['end_year'] ?? '')),
+                    'is_current' => (int) ($_POST['is_current'] ?? 0) === 1 ? 1 : 0,
+                    'description_html' => $this->sanitizeHtml((string) ($_POST['description_html'] ?? '')),
+                ];
+                if ($item['title'] === '' || $item['organization'] === '') {
+                    $this->jsonFail('Title and organization are required.', 422);
+                }
+                $userModel->upsertProfileListItem($applicantAccountId, $column, $item);
+            } elseif ($action === 'remove') {
+                $itemId = trim((string) ($_POST['item_id'] ?? ''));
+                if ($itemId === '') {
+                    $this->jsonFail('Missing item id.', 422);
+                }
+                $userModel->deleteProfileListItem($applicantAccountId, $column, $itemId);
+            } else {
+                $this->jsonFail('Unsupported action.', 422);
+            }
+        } else {
+            $this->jsonFail('Unsupported section.', 422);
+        }
+
+        $profile = $userModel->getApplicantProfile($applicantAccountId);
+        echo json_encode([
+            'ok' => true,
+            'message' => 'Profile updated.',
+            'profile' => $profile,
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+
     public function loginAjax(): void
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -175,5 +309,13 @@ class AuthController
             'message' => $message,
         ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         exit;
+    }
+
+    private function sanitizeHtml(string $html): string
+    {
+        $clean = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $html) ?? '';
+        $clean = preg_replace('/\son\w+="[^"]*"/i', '', $clean) ?? '';
+        $clean = preg_replace("/\son\w+='[^']*'/i", '', $clean) ?? '';
+        return trim($clean);
     }
 }

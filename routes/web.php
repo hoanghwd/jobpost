@@ -9,5 +9,8 @@ $router->get('/', [HomeController::class, 'index']);
 $router->get('/dashboard', [HomeController::class, 'index']);
 
 $router->get('/login', [AuthController::class, 'showLogin']);
+$router->get('/profile', [AuthController::class, 'showProfile']);
 $router->post('/login-ajax', [AuthController::class, 'loginAjax']);
 $router->post('/logout-ajax', [AuthController::class, 'logoutAjax']);
+$router->post('/profile-content-ajax', [AuthController::class, 'profileContentAjax']);
+$router->post('/profile-resume-ajax', [AuthController::class, 'profileResumeAjax']);

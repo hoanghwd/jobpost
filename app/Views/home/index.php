@@ -55,7 +55,7 @@ if ($avatarLetter === '') {
                                 </button>
                                 <div class="candidate-account-menu" data-account-menu>
                                     <div class="candidate-account-name"><?= htmlspecialchars($displayNameFull !== '' ? $displayNameFull : 'Candidate', ENT_QUOTES, 'UTF-8'); ?></div>
-                                    <a href="#" class="candidate-account-item">Profile</a>
+                                    <a href="/profile" class="candidate-account-item">Profile</a>
                                     <button type="button" class="candidate-account-item logout-btn" data-logout-btn>Log out</button>
                                 </div>
                             </div>

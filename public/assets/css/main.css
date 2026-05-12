@@ -197,6 +197,331 @@ body {
     background: #f3f4f6;
 }
 
+.profile-page {
+    background: #f7f7f7;
+}
+
+.profile-wrap {
+    padding: 20px 0 36px;
+}
+
+.profile-card {
+    max-width: 860px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 28px 28px 22px;
+}
+
+.profile-section-head {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-section-head h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #2b2d33;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-icon-btn {
+    border: 0;
+    border-radius: 12px;
+    width: 44px;
+    height: 44px;
+    background: #f3f4f6;
+    color: #2d2f36;
+    font-size: 20px;
+}
+
+.profile-block {
+    margin-top: 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    background: #fff;
+    padding: 18px 22px;
+}
+
+.summary-block p,
+.rich-content p,
+.rich-content li {
+    font-size: 14px;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+.profile-editor {
+    display: none;
+    margin-top: 12px;
+}
+
+.profile-editor.open {
+    display: block;
+}
+
+.editor-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.editor-btn {
+    border: 1px solid #d1d5db;
+    background: #fff;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.editor-btn.primary {
+    background: #0f4cbf;
+    color: #fff;
+    border-color: #0f4cbf;
+}
+
+.editor-btn.danger {
+    color: #b91c1c;
+}
+
+.list-item {
+    position: relative;
+}
+
+.list-item h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    color: #2b2d33;
+    font-weight: 700;
+}
+
+.item-meta {
+    margin: 0 0 6px;
+    color: #4b5563;
+    font-size: 14px;
+}
+
+.item-date {
+    margin: 0 0 10px;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.item-actions {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    gap: 8px;
+}
+
+.mini-icon-btn {
+    border: 0;
+    background: transparent;
+    color: #2d2f36;
+    font-size: 20px;
+}
+
+.empty-copy {
+    margin: 0;
+    color: #6b7280;
+}
+
+.time-period-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.tiny-label {
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.profile-head h1 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 800;
+    color: #2b2d33;
+}
+
+.profile-head p {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: #535862;
+}
+
+.profile-visible-chip {
+    margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #dff3e4;
+    color: #176f37;
+    border: 1px solid #b9dfc3;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.profile-sync {
+    margin-top: 18px;
+    border: 1px solid #d92f8a;
+    border-radius: 16px;
+    padding: 16px;
+    background: #fff;
+}
+
+.sync-tag {
+    display: inline-flex;
+    background: #ac2f76;
+    color: #fff;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.profile-sync p {
+    margin: 16px 0 14px;
+    font-size: 14px;
+    color: #535862;
+}
+
+.sync-btn {
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #0f4cbf;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 20px;
+}
+
+.profile-tabs {
+    margin-top: 22px;
+    display: flex;
+    gap: 24px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.profile-tab {
+    text-decoration: none;
+    border: 0;
+    background: transparent;
+    color: #4b5563;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 0 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-tab.active {
+    color: #0f4cbf;
+    font-weight: 700;
+    border-bottom: 3px solid #2f3337;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.resume-item {
+    margin-top: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.resume-icon i {
+    font-size: 42px;
+    color: #9ca3af;
+}
+
+.resume-item h3 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    color: #2b2d33;
+}
+
+.resume-item p {
+    margin: 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.resume-more {
+    margin-left: auto;
+    border: 0;
+    background: transparent;
+    color: #4b5563;
+    font-size: 24px;
+}
+
+.resume-action-wrap {
+    margin-left: auto;
+    position: relative;
+}
+
+.resume-menu {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 8px);
+    min-width: 280px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 18px 38px rgba(15, 23, 42, .16);
+    padding: 8px;
+    display: none;
+    z-index: 25;
+}
+
+.resume-action-wrap.open .resume-menu {
+    display: block;
+}
+
+.resume-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #2b2d33;
+    padding: 10px 10px;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 15px;
+}
+
+.resume-menu-item:hover {
+    background: #f3f4f6;
+}
+
+.resume-menu-item.danger {
+    color: #b91c1c;
+}
+
 .header-divider {
     border: 0;
     border-top: 1px solid #eceff3;
