@@ -6,6 +6,12 @@ $keyword = $keyword ?? '';
 $location = $location ?? '';
 $currentPath = parse_url((string) ($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH) ?: '/';
 $currentTab = (string) ($_GET['tab'] ?? '');
+$jobCount = count($jobs);
+$hasFilters = $keyword !== '' || $location !== '';
+$jobsLabel = $jobCount === 1 ? 'job' : 'jobs';
+$resultsSummary = $hasFilters
+    ? sprintf('%d %s match your criteria', $jobCount, $jobsLabel)
+    : sprintf('%d active %s in the last 3 months', $jobCount, $jobsLabel);
 
 $activeTab = 'home';
 if ($currentPath === '/company-reviews' || $currentTab === 'company-reviews') {
@@ -30,7 +36,7 @@ if ($currentPath === '/company-reviews' || $currentTab === 'company-reviews') {
                 <div class="hero-nav-right">
                     <a href="/login" class="top-link">Login</a>
                     <span class="top-sep">|</span>
-                    <a href="/recruiters" class="top-link">Recruiters/Post Job</a>
+                    <a href="https://jobportal.huynhdous.com/login" class="top-link">Recruiters/Post Job</a>
                 </div>
             </div>
         </header>
@@ -56,6 +62,7 @@ if ($currentPath === '/company-reviews' || $currentTab === 'company-reviews') {
         <div class="jobs-grid">
             <section class="job-list">
                 <h2>Matches your preferences</h2>
+                <p class="results-summary"><?= htmlspecialchars($resultsSummary, ENT_QUOTES, 'UTF-8'); ?></p>
                 <?php if ($jobs === []): ?>
                     <div class="job-card empty-state">
                         <p>No active jobs found for this search.</p>
@@ -72,6 +79,7 @@ if ($currentPath === '/company-reviews' || $currentTab === 'company-reviews') {
                         'job' => $jobId,
                     ]);
                     $titleText = (string) ($job['job_title'] ?? 'Untitled Job');
+                    $titleWithId = $titleText . ' (#' . $jobId . ')';
                     $companyText = (string) ($job['company_name'] ?? 'Unknown Company');
                     $locationText = trim((string) ($job['job_location'] ?: (($job['city'] ?? '') . ', ' . ($job['state_code'] ?? ''))));
                     $summary = trim((string) ($job['description_text'] ?? ''));
@@ -83,7 +91,7 @@ if ($currentPath === '/company-reviews' || $currentTab === 'company-reviews') {
                         data-job-card
                         data-job-id="<?= $jobId; ?>"
                     >
-                        <h3><?= htmlspecialchars($titleText, ENT_QUOTES, 'UTF-8'); ?></h3>
+                        <h3><?= htmlspecialchars($titleWithId, ENT_QUOTES, 'UTF-8'); ?></h3>
                         <p class="company"><?= htmlspecialchars($companyText, ENT_QUOTES, 'UTF-8'); ?></p>
                         <p class="location"><i class="bi bi-geo-alt-fill"></i> <?= htmlspecialchars($locationText !== '' ? $locationText : 'Location not specified', ENT_QUOTES, 'UTF-8'); ?></p>
                         <div class="tags">

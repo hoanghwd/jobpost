@@ -2,6 +2,12 @@
 declare(strict_types=1);
 
 use App\Modules\Home\Controllers\HomeController;
+use App\Modules\Auth\Controllers\AuthController;
 /** @var \App\Core\Router $router */
 
 $router->get('/', [HomeController::class, 'index']);
+$router->get('/dashboard', [HomeController::class, 'index']);
+
+$router->get('/login', [AuthController::class, 'showLogin']);
+$router->post('/login-ajax', [AuthController::class, 'loginAjax']);
+$router->post('/logout-ajax', [AuthController::class, 'logoutAjax']);

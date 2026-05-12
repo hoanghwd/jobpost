@@ -7,14 +7,15 @@ body {
     font-family: "Inter", Arial, sans-serif;
     background: #fff;
     color: #1f2937;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .indeed-page {
-    height: 100vh;
+    min-height: 100vh;
     padding: 16px 14px;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .indeed-shell {
@@ -221,6 +222,12 @@ body {
 .job-list h2 {
     margin: 0 0 10px;
     font-size: 18px;
+}
+
+.results-summary {
+    margin: -2px 0 12px;
+    color: #4b5563;
+    font-size: 14px;
 }
 
 .job-card {

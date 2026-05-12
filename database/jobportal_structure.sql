@@ -11,7 +11,7 @@
  Target Server Version : 80045
  File Encoding         : 65001
 
- Date: 10/05/2026 21:44:42
+ Date: 11/05/2026 12:39:40
 */
 
 SET NAMES utf8mb4;
@@ -96,6 +96,55 @@ CREATE TABLE `ai_default_template_pool`  (
   UNIQUE INDEX `uq_ai_default_template_pool_key_name`(`template_key`, `template_name`) USING BTREE,
   INDEX `idx_ai_default_template_pool_lookup`(`template_key`, `is_selected_default`, `is_active`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for applicant_account_candidates
+-- ----------------------------
+DROP TABLE IF EXISTS `applicant_account_candidates`;
+CREATE TABLE `applicant_account_candidates`  (
+  `applicant_account_candidate_id` bigint(0) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `applicant_account_id` bigint(0) UNSIGNED NOT NULL,
+  `candidate_id` bigint(0) UNSIGNED NOT NULL,
+  `link_reason` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'backfill',
+  `created_utc` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`applicant_account_candidate_id`) USING BTREE,
+  UNIQUE INDEX `uq_applicant_account_candidates_candidate`(`candidate_id`) USING BTREE,
+  INDEX `idx_applicant_account_candidates_account`(`applicant_account_id`) USING BTREE,
+  CONSTRAINT `fk_applicant_account_candidates_account` FOREIGN KEY (`applicant_account_id`) REFERENCES `applicant_accounts` (`applicant_account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_applicant_account_candidates_candidate` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`candidate_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 256 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for applicant_accounts
+-- ----------------------------
+DROP TABLE IF EXISTS `applicant_accounts`;
+CREATE TABLE `applicant_accounts`  (
+  `applicant_account_id` bigint(0) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `last_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `email_verified` tinyint(1) NOT NULL DEFAULT 0,
+  `phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `phone_verified` tinyint(1) NOT NULL DEFAULT 0,
+  `zipcode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `timezone_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `username` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `password_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `password_set_utc` datetime(0) NULL DEFAULT NULL,
+  `active_resume_id` bigint(0) UNSIGNED NULL DEFAULT NULL,
+  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'pending_password',
+  `last_login_utc` datetime(0) NULL DEFAULT NULL,
+  `created_utc` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `updated_utc` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`applicant_account_id`) USING BTREE,
+  UNIQUE INDEX `uq_applicant_accounts_username`(`username`) USING BTREE,
+  INDEX `idx_applicant_accounts_name`(`last_name`, `first_name`) USING BTREE,
+  INDEX `idx_applicant_accounts_status`(`status`) USING BTREE,
+  INDEX `idx_applicant_accounts_active_resume`(`active_resume_id`) USING BTREE,
+  INDEX `idx_applicant_accounts_email`(`email`) USING BTREE,
+  INDEX `idx_applicant_accounts_phone`(`phone`) USING BTREE,
+  CONSTRAINT `fk_applicant_accounts_active_resume` FOREIGN KEY (`active_resume_id`) REFERENCES `applicant_resumes` (`applicant_resume_id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 256 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for applicant_intake_pipeline_runs
@@ -364,6 +413,34 @@ CREATE TABLE `applicant_remove_reasons`  (
   UNIQUE INDEX `uq_applicant_remove_reasons_key`(`reason_key`) USING BTREE,
   INDEX `idx_applicant_remove_reasons_active_sort`(`is_active`, `sort_order`, `reason_label`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for applicant_resumes
+-- ----------------------------
+DROP TABLE IF EXISTS `applicant_resumes`;
+CREATE TABLE `applicant_resumes`  (
+  `applicant_resume_id` bigint(0) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `applicant_account_id` bigint(0) UNSIGNED NOT NULL,
+  `resume_label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `source_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'candidate_backfill',
+  `original_file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `file_path` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `file_mime_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `file_size_bytes` bigint(0) UNSIGNED NULL DEFAULT NULL,
+  `raw_text` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `text_hash` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `source_candidate_resume_id` bigint(0) UNSIGNED NULL DEFAULT NULL,
+  `created_utc` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `updated_utc` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  `deleted_utc` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`applicant_resume_id`) USING BTREE,
+  UNIQUE INDEX `uq_applicant_resumes_source_candidate_resume`(`source_candidate_resume_id`) USING BTREE,
+  INDEX `idx_applicant_resumes_account`(`applicant_account_id`) USING BTREE,
+  INDEX `idx_applicant_resumes_account_deleted`(`applicant_account_id`, `deleted_utc`) USING BTREE,
+  INDEX `idx_applicant_resumes_text_hash`(`text_hash`) USING BTREE,
+  CONSTRAINT `fk_applicant_resumes_account` FOREIGN KEY (`applicant_account_id`) REFERENCES `applicant_accounts` (`applicant_account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_applicant_resumes_source_candidate_resume` FOREIGN KEY (`source_candidate_resume_id`) REFERENCES `candidate_resumes` (`resume_id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 128 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for candidate_ai_parse_batch_items
@@ -5116,6 +5193,57 @@ BEGIN
   PREPARE stmt FROM @sql;
   EXECUTE stmt;
   DEALLOCATE PREPARE stmt;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Triggers structure for table applicant_resumes
+-- ----------------------------
+DROP TRIGGER IF EXISTS `trg_applicant_resumes_max3_before_insert`;
+delimiter ;;
+CREATE TRIGGER `trg_applicant_resumes_max3_before_insert` BEFORE INSERT ON `applicant_resumes` FOR EACH ROW BEGIN
+  DECLARE resume_count INT DEFAULT 0;
+
+  IF NEW.deleted_utc IS NULL THEN
+    SELECT COUNT(*)
+      INTO resume_count
+    FROM `applicant_resumes`
+    WHERE applicant_account_id = NEW.applicant_account_id
+      AND deleted_utc IS NULL;
+
+    IF resume_count >= 3 THEN
+      SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Applicant account cannot have more than 3 active resumes.';
+    END IF;
+  END IF;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Triggers structure for table applicant_resumes
+-- ----------------------------
+DROP TRIGGER IF EXISTS `trg_applicant_resumes_max3_before_update`;
+delimiter ;;
+CREATE TRIGGER `trg_applicant_resumes_max3_before_update` BEFORE UPDATE ON `applicant_resumes` FOR EACH ROW BEGIN
+  DECLARE resume_count INT DEFAULT 0;
+
+  IF OLD.deleted_utc IS NOT NULL
+     AND NEW.deleted_utc IS NULL THEN
+
+    SELECT COUNT(*)
+      INTO resume_count
+    FROM `applicant_resumes`
+    WHERE applicant_account_id = NEW.applicant_account_id
+      AND deleted_utc IS NULL
+      AND applicant_resume_id <> OLD.applicant_resume_id;
+
+    IF resume_count >= 3 THEN
+      SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Applicant account cannot have more than 3 active resumes.';
+    END IF;
+  END IF;
 END
 ;;
 delimiter ;

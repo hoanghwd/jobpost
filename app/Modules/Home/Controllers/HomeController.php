@@ -25,7 +25,14 @@ class HomeController
         $selectedId = (int) ($_GET['job'] ?? 0);
 
         $jobs = $this->findJobs($keyword, $location);
-        $selectedJob = $this->resolveSelectedJob($jobs, $selectedId);
+        if ($selectedId > 0) {
+            $selectedJob = $this->findJobById($selectedId);
+            if ($selectedJob !== null) {
+                $jobs = $this->ensureJobPresent($jobs, $selectedJob);
+            }
+        } else {
+            $selectedJob = $this->resolveSelectedJob($jobs, 0);
+        }
 
         ob_start();
         require base_path('app/Views/home/index.php');
@@ -55,21 +62,28 @@ SELECT
 FROM job_posts jp
 LEFT JOIN accounts a ON a.account_id = jp.account_id
 WHERE jp.active = 1
+  AND jp.created_utc >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 MONTH)
 SQL;
 
         $params = [];
 
         if ($keyword !== '') {
-            $sql .= ' AND (jp.job_title LIKE :keyword OR jp.description_text LIKE :keyword OR a.accName LIKE :keyword)';
-            $params['keyword'] = '%' . $keyword . '%';
+            $sql .= ' AND (jp.job_title LIKE :keyword_title OR jp.description_text LIKE :keyword_description OR a.accName LIKE :keyword_company)';
+            $keywordLike = '%' . $keyword . '%';
+            $params['keyword_title'] = $keywordLike;
+            $params['keyword_description'] = $keywordLike;
+            $params['keyword_company'] = $keywordLike;
         }
 
         if ($location !== '') {
-            $sql .= ' AND (jp.job_location LIKE :location OR jp.city LIKE :location OR jp.state_code LIKE :location)';
-            $params['location'] = '%' . $location . '%';
+            $sql .= ' AND (jp.job_location LIKE :location_full OR jp.city LIKE :location_city OR jp.state_code LIKE :location_state)';
+            $locationLike = '%' . $location . '%';
+            $params['location_full'] = $locationLike;
+            $params['location_city'] = $locationLike;
+            $params['location_state'] = $locationLike;
         }
 
-        $sql .= ' ORDER BY jp.created_utc DESC LIMIT 100';
+        $sql .= ' ORDER BY jp.created_utc DESC';
 
         $stmt = $db->prepare($sql);
         $stmt->execute($params);
@@ -87,13 +101,17 @@ SQL;
             return null;
         }
 
+        if ($selectedId <= 0) {
+            return $jobs[0];
+        }
+
         foreach ($jobs as $job) {
             if ((int) ($job['job_post_id'] ?? 0) === $selectedId) {
                 return $job;
             }
         }
 
-        return $jobs[0];
+        return null;
     }
 
     /**
@@ -121,7 +139,9 @@ SELECT
     COALESCE(NULLIF(TRIM(a.accName), ''), NULLIF(TRIM(a.officeName), ''), CONCAT('Account #', jp.account_id)) AS company_name
 FROM job_posts jp
 LEFT JOIN accounts a ON a.account_id = jp.account_id
-WHERE jp.active = 1 AND jp.job_post_id = :job_post_id
+WHERE jp.active = 1
+  AND jp.created_utc >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 MONTH)
+  AND jp.job_post_id = :job_post_id
 LIMIT 1
 SQL;
 
@@ -130,5 +150,28 @@ SQL;
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $row ?: null;
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $jobs
+     * @param array<string, mixed> $selectedJob
+     * @return array<int, array<string, mixed>>
+     */
+    private function ensureJobPresent(array $jobs, array $selectedJob): array
+    {
+        $selectedId = (int) ($selectedJob['job_post_id'] ?? 0);
+        if ($selectedId <= 0) {
+            return $jobs;
+        }
+
+        foreach ($jobs as $job) {
+            if ((int) ($job['job_post_id'] ?? 0) === $selectedId) {
+                return $jobs;
+            }
+        }
+
+        array_unshift($jobs, $selectedJob);
+
+        return $jobs;
     }
 }
