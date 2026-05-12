@@ -238,21 +238,21 @@ declare(strict_types=1);
 <div class="login-shell">
     <div class="login-split-card">
         <section class="login-visual">
-            <div class="visual-badge"><span class="visual-badge-dot"></span>Smarter recruiting workflow</div>
+            <div class="visual-badge"><span class="visual-badge-dot"></span>Your candidate job hub</div>
 
             <div class="visual-copy">
-                <h3>Hire faster without the chaos.</h3>
-                <p>Keep candidates, conversations, scheduling, and office workflow in one clean place. Less spreadsheet archaeology. More actual recruiting.</p>
+                <h3>Track applications in one place.</h3>
+                <p>Search jobs, sign in quickly, and manage your application progress with a clear, simple candidate account.</p>
             </div>
 
             <div class="visual-figure-wrap">
                 <div class="visual-figure-card">
-                    <img src="/assets/images/sign_in_left.avif" alt="Recruiter workspace" class="visual-figure-image">
+                    <img src="/assets/images/sign_in_left.avif" alt="Candidate login workspace" class="visual-figure-image">
                     <div class="visual-figure-chip">
                         <span class="visual-figure-chip-dot"></span>
                         <div>
-                            <strong>Recruiter workflow</strong>
-                            <span>Candidates, conversations, and office ops in one place</span>
+                            <strong>Candidate account</strong>
+                            <span>Applications, saved jobs, and profile access in one place</span>
                         </div>
                     </div>
                 </div>
@@ -262,7 +262,7 @@ declare(strict_types=1);
         <section class="login-form-side">
             <div class="login-form-wrap">
                 <div class="login-brand">
-                    <h3>Recruiter/Employer Sign in</h3>
+                    <h3>Candidate Sign in</h3>
                     <p>Use your email or username to access jobPortal.</p>
                 </div>
 
@@ -286,10 +286,10 @@ declare(strict_types=1);
                         </div>
                     </div>
 
-                    <button type="submit" id="loginBtn" class="btn btn-primary login-submit-btn">Recruiter/Employer Sign in</button>
+                    <button type="submit" id="loginBtn" class="btn btn-primary login-submit-btn">Candidate Sign in</button>
                 </form>
 
-                <div class="login-footer-note">Secure access for recruiter and office workflow.</div>
+                <div class="login-footer-note">Secure access for your candidate account.</div>
             </div>
         </section>
     </div>

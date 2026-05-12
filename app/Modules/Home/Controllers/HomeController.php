@@ -11,6 +11,10 @@ class HomeController
 {
     public function index(): void
     {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         $ajaxAction = trim((string) ($_GET['ajax'] ?? ''));
         if ($ajaxAction === 'job_detail') {
             header('Content-Type: text/html; charset=UTF-8');

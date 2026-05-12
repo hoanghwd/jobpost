@@ -47,11 +47,12 @@ class AuthController
             $this->jsonFail('User not found.', 401);
         }
 
-        if ((int)($row['user_active'] ?? 0) !== 1) {
-            $this->jsonFail('User is inactive.', 403);
+        $status = strtolower(trim((string)($row['status'] ?? '')));
+        if ($status === '' || in_array($status, ['inactive', 'disabled', 'blocked', 'locked', 'deleted'], true)) {
+            $this->jsonFail('Account is not active.', 403);
         }
 
-        $storedPassword = (string)($row['password'] ?? '');
+        $storedPassword = (string)($row['password_hash'] ?? '');
         $validPassword = false;
 
         if ($storedPassword !== '') {
@@ -72,14 +73,10 @@ class AuthController
             $this->jsonFail('Password mismatch.', 401);
         }
 
-        if (empty($row['account_id'])) {
-            $this->jsonFail('No linked account found.', 403);
+        $applicantAccountId = isset($row['applicant_account_id']) ? (int)$row['applicant_account_id'] : 0;
+        if ($applicantAccountId > 0) {
+            $userModel->touchApplicantLastLogin($applicantAccountId);
         }
-
-        $officeAccounts = $userModel->getOfficeAccounts(
-            (string)($row['officeFK'] ?? ''),
-            isset($row['account_id']) ? (int)$row['account_id'] : null
-        );
 
         session_regenerate_id(true);
 
@@ -87,26 +84,17 @@ class AuthController
             'is_logged_in' => true,
             'logged_in_at' => date('Y-m-d H:i:s'),
             'last_activity_utc' => gmdate('Y-m-d H:i:s'),
-            'office_accounts' => $officeAccounts,
-            'user' => [
-                'user_id' => isset($row['user_id']) ? (int)$row['user_id'] : null,
+            'applicant' => [
+                'applicant_account_id' => $applicantAccountId > 0 ? $applicantAccountId : null,
                 'first_name' => $row['first_name'] ?? null,
                 'last_name' => $row['last_name'] ?? null,
                 'full_name' => trim(((string)($row['first_name'] ?? '')) . ' ' . ((string)($row['last_name'] ?? ''))),
                 'email' => $row['email'] ?? null,
                 'username' => $row['username'] ?? null,
-                'active' => isset($row['user_active']) ? (int)$row['user_active'] : 0,
-                'account_fk' => isset($row['account_fk']) ? (int)$row['account_fk'] : null,
                 'phone' => $row['phone'] ?? null,
-            ],
-            'account' => [
-                'account_id' => isset($row['account_id']) ? (int)$row['account_id'] : null,
-                'officeFK' => $row['officeFK'] ?? null,
-                'accName' => $row['accName'] ?? null,
-                'officeName' => $row['officeName'] ?? null,
-                'ownerName' => $row['ownerName'] ?? null,
-                'timezoneSqlName' => $row['timezoneSqlName'] ?? null,
-                'active' => $row['account_active'] ?? null,
+                'status' => $row['status'] ?? null,
+                'email_verified' => isset($row['email_verified']) ? (int)$row['email_verified'] : 0,
+                'phone_verified' => isset($row['phone_verified']) ? (int)$row['phone_verified'] : 0,
             ],
         ];
 

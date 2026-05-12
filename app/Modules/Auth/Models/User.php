@@ -8,34 +8,27 @@ use PDO;
 
 class User extends Model
 {
-    protected string $table = 'users';
-    protected string $primaryKey = 'user_id';
+    protected string $table = 'applicant_accounts';
+    protected string $primaryKey = 'applicant_account_id';
 
     public function findForLogin(string $login): ?array
     {
         $sql = "
             SELECT
-                u.user_id,
-                u.first_name,
-                u.last_name,
-                u.email,
-                u.username,
-                u.password,
-                u.active AS user_active,
-                u.account_fk,
-                u.phone,
-                a.account_id,
-                a.officeFK,
-                a.accName,
-                a.officeName,
-                a.ownerName,
-                a.active AS account_active,
-                a.timezoneSqlName
-            FROM users u
-            LEFT JOIN accounts a
-                ON a.account_id = u.account_fk
-            WHERE u.username = :login
-               OR u.email = :login_email
+                aa.applicant_account_id,
+                aa.first_name,
+                aa.last_name,
+                aa.email,
+                aa.username,
+                aa.phone,
+                aa.password_hash,
+                aa.status,
+                aa.email_verified,
+                aa.phone_verified,
+                aa.last_login_utc
+            FROM applicant_accounts aa
+            WHERE aa.username = :login
+               OR aa.email = :login_email
             LIMIT 1
         ";
 
@@ -49,72 +42,20 @@ class User extends Model
         return $row ?: null;
     }
 
-    public function getOfficeAccounts(?string $officeFk, ?int $fallbackAccountId = null): array
+    public function touchApplicantLastLogin(int $applicantAccountId): void
     {
-        $officeFk = trim((string)($officeFk ?? ''));
-        if ($officeFk !== '') {
-            $sql = "
-                SELECT
-                    a.account_id,
-                    a.officeFK,
-                    a.officeName,
-                    a.accName,
-                    COALESCE(
-                        NULLIF(TRIM(a.accName), ''),
-                        NULLIF(TRIM(a.officeName), ''),
-                        CONCAT('Account #', a.account_id)
-                    ) AS account_label
-                FROM accounts a
-                WHERE a.officeFK = :office_fk
-                ORDER BY account_label ASC, a.account_id ASC
-            ";
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindValue(':office_fk', $officeFk, PDO::PARAM_STR);
-            $stmt->execute();
-            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
-            if (!empty($rows)) {
-                return array_map([$this, 'normalizeAccountRow'], $rows);
-            }
+        if ($applicantAccountId <= 0) {
+            return;
         }
 
-        if ($fallbackAccountId !== null && $fallbackAccountId > 0) {
-            $sql = "
-                SELECT
-                    a.account_id,
-                    a.officeFK,
-                    a.officeName,
-                    a.accName,
-                    COALESCE(
-                        NULLIF(TRIM(a.accName), ''),
-                        NULLIF(TRIM(a.officeName), ''),
-                        CONCAT('Account #', a.account_id)
-                    ) AS account_label
-                FROM accounts a
-                WHERE a.account_id = :account_id
-                LIMIT 1
-            ";
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindValue(':account_id', $fallbackAccountId, PDO::PARAM_INT);
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($row) {
-                return [$this->normalizeAccountRow($row)];
-            }
-        }
-
-        return [];
-    }
-
-    protected function normalizeAccountRow(array $row): array
-    {
-        return [
-            'account_id' => isset($row['account_id']) ? (int)$row['account_id'] : 0,
-            'officeFK' => isset($row['officeFK']) ? trim((string)$row['officeFK']) : '',
-            'officeName' => $row['officeName'] ?? null,
-            'accName' => $row['accName'] ?? null,
-            'account_label' => trim((string)($row['account_label'] ?? '')) !== ''
-                ? trim((string)$row['account_label'])
-                : 'Account #' . (int)($row['account_id'] ?? 0),
-        ];
+        $sql = "
+            UPDATE applicant_accounts
+            SET last_login_utc = UTC_TIMESTAMP()
+            WHERE applicant_account_id = :applicant_account_id
+            LIMIT 1
+        ";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':applicant_account_id', $applicantAccountId, PDO::PARAM_INT);
+        $stmt->execute();
     }
 }

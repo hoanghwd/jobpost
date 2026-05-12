@@ -19,6 +19,13 @@ if ($currentPath === '/company-reviews' || $currentTab === 'company-reviews') {
 } elseif ($currentPath === '/find-salaries' || $currentTab === 'find-salaries') {
     $activeTab = 'find-salaries';
 }
+$isLoggedIn = !empty($_SESSION['auth']['is_logged_in']);
+$displayName = trim((string) ($_SESSION['auth']['applicant']['first_name'] ?? ''));
+$displayNameFull = trim((string) ($_SESSION['auth']['applicant']['full_name'] ?? ''));
+$avatarLetter = strtoupper(substr($displayName !== '' ? $displayName : ((string) ($_SESSION['auth']['applicant']['username'] ?? 'A')), 0, 1));
+if ($avatarLetter === '') {
+    $avatarLetter = 'A';
+}
 ?>
 
 <main class="indeed-page">
@@ -34,9 +41,30 @@ if ($currentPath === '/company-reviews' || $currentTab === 'company-reviews') {
                     </nav>
                 </div>
                 <div class="hero-nav-right">
-                    <a href="/login" class="top-link">Login</a>
+                    <?php if ($isLoggedIn): ?>
+                        <div class="candidate-nav-icons" aria-label="Candidate quick actions">
+                            <a href="#" class="candidate-icon-btn" title="Saved jobs" aria-label="Saved jobs"><i class="bi bi-bookmark"></i></a>
+                            <a href="#" class="candidate-icon-btn" title="Messages" aria-label="Messages"><i class="bi bi-chat-left-text"></i></a>
+                            <a href="#" class="candidate-icon-btn has-badge" title="Notifications" aria-label="Notifications">
+                                <i class="bi bi-bell"></i>
+                                <span class="candidate-count-badge">9+</span>
+                            </a>
+                            <div class="candidate-account-wrap">
+                                <button type="button" class="candidate-profile-btn" title="Account" aria-label="Account" data-account-toggle>
+                                    <span class="candidate-avatar"><?= htmlspecialchars($avatarLetter, ENT_QUOTES, 'UTF-8'); ?></span>
+                                </button>
+                                <div class="candidate-account-menu" data-account-menu>
+                                    <div class="candidate-account-name"><?= htmlspecialchars($displayNameFull !== '' ? $displayNameFull : 'Candidate', ENT_QUOTES, 'UTF-8'); ?></div>
+                                    <a href="#" class="candidate-account-item">Profile</a>
+                                    <button type="button" class="candidate-account-item logout-btn" data-logout-btn>Log out</button>
+                                </div>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <a href="/login" class="top-link">Login</a>
+                    <?php endif; ?>
                     <span class="top-sep">|</span>
-                    <a href="https://jobportal.huynhdous.com/login" class="top-link">Recruiters/Post Job</a>
+                    <a href="https://jobportal.huynhdous.com/login" class="top-link">Employers / Post Job</a>
                 </div>
             </div>
         </header>
@@ -177,6 +205,43 @@ if ($currentPath === '/company-reviews' || $currentTab === 'company-reviews') {
 (() => {
     const cards = document.querySelectorAll('[data-job-card]');
     const detailPanel = document.getElementById('job-detail-panel');
+    const accountToggle = document.querySelector('[data-account-toggle]');
+    const accountMenu = document.querySelector('[data-account-menu]');
+    const logoutBtn = document.querySelector('[data-logout-btn]');
+
+    if (accountToggle && accountMenu) {
+        accountToggle.addEventListener('click', () => {
+            accountMenu.classList.toggle('open');
+        });
+
+        document.addEventListener('click', (event) => {
+            const clickedInside = event.target instanceof Element && (event.target.closest('[data-account-toggle]') || event.target.closest('[data-account-menu]'));
+            if (!clickedInside) {
+                accountMenu.classList.remove('open');
+            }
+        });
+    }
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            logoutBtn.disabled = true;
+            try {
+                const response = await fetch('/logout-ajax', {
+                    method: 'POST',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                });
+                if (!response.ok) {
+                    window.location.href = '/';
+                    return;
+                }
+                const payload = await response.json();
+                window.location.href = payload.redirect || '/';
+            } catch (e) {
+                window.location.href = '/';
+            }
+        });
+    }
+
     if (!cards.length || !detailPanel) return;
 
     const setSelected = (targetCard) => {
