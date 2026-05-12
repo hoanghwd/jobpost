@@ -433,6 +433,7 @@ CREATE TABLE `applicant_resumes`  (
   `raw_text` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   `text_hash` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `source_candidate_resume_id` bigint(0) UNSIGNED NULL DEFAULT NULL,
+  `is_current` tinyint(1) NOT NULL DEFAULT 0,
   `created_utc` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
   `updated_utc` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   `deleted_utc` datetime(0) NULL DEFAULT NULL,

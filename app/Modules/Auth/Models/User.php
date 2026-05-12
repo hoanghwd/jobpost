@@ -5,6 +5,7 @@ namespace App\Modules\Auth\Models;
 
 use App\Core\Model;
 use PDO;
+use Throwable;
 
 class User extends Model
 {
@@ -126,12 +127,13 @@ class User extends Model
                 file_path,
                 file_mime_type,
                 file_size_bytes,
+                is_current,
                 created_utc,
                 updated_utc
             FROM applicant_resumes
             WHERE applicant_account_id = :applicant_account_id
               AND deleted_utc IS NULL
-            ORDER BY created_utc DESC, applicant_resume_id DESC
+            ORDER BY is_current DESC, created_utc DESC, applicant_resume_id DESC
         ";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':applicant_account_id', $applicantAccountId, PDO::PARAM_INT);
@@ -158,6 +160,181 @@ class User extends Model
         $stmt->bindValue(':resume_id', $resumeId, PDO::PARAM_INT);
         $stmt->bindValue(':applicant_account_id', $applicantAccountId, PDO::PARAM_INT);
         $stmt->execute();
+    }
+
+    public function replaceApplicantResumeFile(
+        int $applicantAccountId,
+        int $resumeId,
+        string $resumeLabel,
+        string $originalFileName,
+        string $filePath,
+        string $mimeType,
+        int $fileSizeBytes
+    ): ?int {
+        if ($applicantAccountId <= 0 || $resumeId <= 0) {
+            return null;
+        }
+
+        $current = $this->getResumeById($applicantAccountId, $resumeId);
+        if ($current === null) {
+            return null;
+        }
+
+        $this->db->beginTransaction();
+        try {
+            $unsetSql = "
+                UPDATE applicant_resumes
+                SET is_current = 0
+                WHERE applicant_account_id = :applicant_account_id
+                  AND deleted_utc IS NULL
+            ";
+            $unsetStmt = $this->db->prepare($unsetSql);
+            $unsetStmt->bindValue(':applicant_account_id', $applicantAccountId, PDO::PARAM_INT);
+            $unsetStmt->execute();
+
+            $insertSql = "
+                INSERT INTO applicant_resumes (
+                    applicant_account_id,
+                    resume_label,
+                    source_type,
+                    original_file_name,
+                    file_path,
+                    file_mime_type,
+                    file_size_bytes,
+                    raw_text,
+                    text_hash,
+                    source_candidate_resume_id,
+                    is_current
+                ) VALUES (
+                    :applicant_account_id,
+                    :resume_label,
+                    :source_type,
+                    :original_file_name,
+                    :file_path,
+                    :file_mime_type,
+                    :file_size_bytes,
+                    :raw_text,
+                    :text_hash,
+                    :source_candidate_resume_id,
+                    1
+                )
+            ";
+            $insertStmt = $this->db->prepare($insertSql);
+            $insertStmt->bindValue(':applicant_account_id', $applicantAccountId, PDO::PARAM_INT);
+            $insertStmt->bindValue(':resume_label', $resumeLabel, PDO::PARAM_STR);
+            $insertStmt->bindValue(':source_type', 'candidate_replace', PDO::PARAM_STR);
+            $insertStmt->bindValue(':original_file_name', $originalFileName, PDO::PARAM_STR);
+            $insertStmt->bindValue(':file_path', $filePath, PDO::PARAM_STR);
+            $insertStmt->bindValue(':file_mime_type', $mimeType, PDO::PARAM_STR);
+            $insertStmt->bindValue(':file_size_bytes', $fileSizeBytes, PDO::PARAM_INT);
+            $insertStmt->bindValue(':raw_text', null, PDO::PARAM_NULL);
+            $insertStmt->bindValue(':text_hash', null, PDO::PARAM_NULL);
+            if (!empty($current['source_candidate_resume_id'])) {
+                $insertStmt->bindValue(':source_candidate_resume_id', (int) $current['source_candidate_resume_id'], PDO::PARAM_INT);
+            } else {
+                $insertStmt->bindValue(':source_candidate_resume_id', null, PDO::PARAM_NULL);
+            }
+            $insertStmt->execute();
+            $newResumeId = (int) $this->db->lastInsertId();
+
+            $activeSql = "
+                UPDATE applicant_accounts
+                SET active_resume_id = :resume_id
+                WHERE applicant_account_id = :applicant_account_id
+                LIMIT 1
+            ";
+            $activeStmt = $this->db->prepare($activeSql);
+            $activeStmt->bindValue(':resume_id', $newResumeId, PDO::PARAM_INT);
+            $activeStmt->bindValue(':applicant_account_id', $applicantAccountId, PDO::PARAM_INT);
+            $activeStmt->execute();
+
+            $this->db->commit();
+            return $newResumeId;
+        } catch (Throwable $e) {
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
+            throw $e;
+        }
+    }
+
+    public function getResumeById(int $applicantAccountId, int $resumeId): ?array
+    {
+        if ($applicantAccountId <= 0 || $resumeId <= 0) {
+            return null;
+        }
+
+        $sql = "
+            SELECT *
+            FROM applicant_resumes
+            WHERE applicant_resume_id = :resume_id
+              AND applicant_account_id = :applicant_account_id
+              AND deleted_utc IS NULL
+            LIMIT 1
+        ";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':resume_id', $resumeId, PDO::PARAM_INT);
+        $stmt->bindValue(':applicant_account_id', $applicantAccountId, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row ?: null;
+    }
+
+    public function setCurrentResume(int $applicantAccountId, int $resumeId): void
+    {
+        if ($applicantAccountId <= 0 || $resumeId <= 0) {
+            return;
+        }
+
+        $exists = $this->getResumeById($applicantAccountId, $resumeId);
+        if ($exists === null) {
+            return;
+        }
+
+        $this->db->beginTransaction();
+        try {
+            $unsetSql = "
+                UPDATE applicant_resumes
+                SET is_current = 0
+                WHERE applicant_account_id = :applicant_account_id
+                  AND deleted_utc IS NULL
+            ";
+            $unsetStmt = $this->db->prepare($unsetSql);
+            $unsetStmt->bindValue(':applicant_account_id', $applicantAccountId, PDO::PARAM_INT);
+            $unsetStmt->execute();
+
+            $setSql = "
+                UPDATE applicant_resumes
+                SET is_current = 1
+                WHERE applicant_resume_id = :resume_id
+                  AND applicant_account_id = :applicant_account_id
+                  AND deleted_utc IS NULL
+                LIMIT 1
+            ";
+            $setStmt = $this->db->prepare($setSql);
+            $setStmt->bindValue(':resume_id', $resumeId, PDO::PARAM_INT);
+            $setStmt->bindValue(':applicant_account_id', $applicantAccountId, PDO::PARAM_INT);
+            $setStmt->execute();
+
+            $activeSql = "
+                UPDATE applicant_accounts
+                SET active_resume_id = :resume_id
+                WHERE applicant_account_id = :applicant_account_id
+                LIMIT 1
+            ";
+            $activeStmt = $this->db->prepare($activeSql);
+            $activeStmt->bindValue(':resume_id', $resumeId, PDO::PARAM_INT);
+            $activeStmt->bindValue(':applicant_account_id', $applicantAccountId, PDO::PARAM_INT);
+            $activeStmt->execute();
+
+            $this->db->commit();
+        } catch (Throwable $e) {
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
+            throw $e;
+        }
     }
 
     public function upsertProfileListItem(int $applicantAccountId, string $column, array $item): void

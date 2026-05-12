@@ -75,6 +75,103 @@ class AuthController
 
         if ($action === 'delete') {
             $userModel->softDeleteApplicantResume($applicantAccountId, $resumeId);
+        } elseif ($action === 'set_current') {
+            if ($resumeId <= 0) {
+                $this->jsonFail('Missing resume id.', 422);
+            }
+            $userModel->setCurrentResume($applicantAccountId, $resumeId);
+        } elseif ($action === 'preview') {
+            $resume = $userModel->getResumeById($applicantAccountId, $resumeId);
+            if ($resume === null) {
+                $this->jsonFail('Resume not found.', 404);
+            }
+            echo json_encode([
+                'ok' => true,
+                'preview_url' => '/resume-file?resume_id=' . $resumeId . '&mode=inline',
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            exit;
+        } elseif ($action === 'download') {
+            $resume = $userModel->getResumeById($applicantAccountId, $resumeId);
+            if ($resume === null) {
+                $this->jsonFail('Resume not found.', 404);
+            }
+            echo json_encode([
+                'ok' => true,
+                'download_url' => '/resume-file?resume_id=' . $resumeId . '&mode=download',
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            exit;
+        } elseif ($action === 'replace') {
+            if ($resumeId <= 0) {
+                $this->jsonFail('Missing resume id.', 422);
+            }
+            if (!isset($_FILES['resume_file']) || !is_array($_FILES['resume_file'])) {
+                $this->jsonFail('No file uploaded.', 422);
+            }
+
+            $file = $_FILES['resume_file'];
+            $errorCode = (int) ($file['error'] ?? UPLOAD_ERR_NO_FILE);
+            if ($errorCode !== UPLOAD_ERR_OK) {
+                $this->jsonFail('Upload failed.', 422);
+            }
+
+            $tmpPath = (string) ($file['tmp_name'] ?? '');
+            $originalName = trim((string) ($file['name'] ?? 'resume.pdf'));
+            $sizeBytes = (int) ($file['size'] ?? 0);
+            if ($tmpPath === '' || $sizeBytes <= 0) {
+                $this->jsonFail('Invalid upload payload.', 422);
+            }
+
+            $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+            $allowed = ['pdf', 'doc', 'docx', 'txt', 'rtf'];
+            if (!in_array($extension, $allowed, true)) {
+                $this->jsonFail('Unsupported file type.', 422);
+            }
+
+            $mimeType = (string) ($file['type'] ?? 'application/octet-stream');
+            $safeName = preg_replace('/[^a-zA-Z0-9._-]/', '_', $originalName) ?? 'resume.' . $extension;
+            if ($safeName === '') {
+                $safeName = 'resume.' . $extension;
+            }
+
+            $resumeRoot = trim((string) env('APPLICANT_RESUME_STORAGE_PATH', storage_path('applicant-resumes')));
+            if ($resumeRoot === '') {
+                $resumeRoot = storage_path('applicant-resumes');
+            }
+            $resumeDir = rtrim($resumeRoot, '/\\') . DIRECTORY_SEPARATOR . $applicantAccountId;
+            if (!is_dir($resumeDir) && !mkdir($resumeDir, 0775, true) && !is_dir($resumeDir)) {
+                $this->jsonFail('Unable to create resume directory.', 500);
+            }
+
+            $storedName = sprintf(
+                'resume_%d_%s_%s',
+                $resumeId,
+                gmdate('YmdHis'),
+                $safeName
+            );
+            $destPath = rtrim($resumeDir, '/\\') . DIRECTORY_SEPARATOR . $storedName;
+            if (!move_uploaded_file($tmpPath, $destPath)) {
+                $this->jsonFail('Failed to move uploaded file.', 500);
+            }
+
+            $storedPath = $destPath;
+            $targetResume = $userModel->getResumeById($applicantAccountId, $resumeId);
+            if ($targetResume === null) {
+                $this->jsonFail('Resume not found for replacement.', 404);
+            }
+            $resumeLabel = trim((string) ($targetResume['resume_label'] ?? ''));
+            if ($resumeLabel === '') {
+                $resumeLabel = 'Resume';
+            }
+
+            $userModel->replaceApplicantResumeFile(
+                $applicantAccountId,
+                $resumeId,
+                $resumeLabel,
+                $originalName,
+                $storedPath,
+                $mimeType,
+                $sizeBytes
+            );
         } else {
             $this->jsonFail('Unsupported action.', 422);
         }
@@ -84,6 +181,56 @@ class AuthController
             'message' => 'Resume updated.',
             'resumes' => $userModel->getApplicantResumes($applicantAccountId),
         ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+
+    public function serveResumeFile(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (empty($_SESSION['auth']['is_logged_in'])) {
+            http_response_code(401);
+            echo 'Not authenticated.';
+            return;
+        }
+
+        $applicantAccountId = (int) ($_SESSION['auth']['applicant']['applicant_account_id'] ?? 0);
+        $resumeId = (int) ($_GET['resume_id'] ?? 0);
+        $mode = strtolower(trim((string) ($_GET['mode'] ?? 'inline')));
+        $disposition = $mode === 'download' ? 'attachment' : 'inline';
+
+        $userModel = new User();
+        $resume = $userModel->getResumeById($applicantAccountId, $resumeId);
+        if ($resume === null) {
+            http_response_code(404);
+            echo 'Resume not found.';
+            return;
+        }
+
+        $storedPath = trim((string) ($resume['file_path'] ?? ''));
+        $resolvedPath = $this->resolveResumePath($storedPath);
+        if ($resolvedPath === '' || !is_file($resolvedPath) || !is_readable($resolvedPath)) {
+            http_response_code(404);
+            echo 'Resume file unavailable.';
+            return;
+        }
+
+        $filename = trim((string) ($resume['original_file_name'] ?? 'resume.pdf'));
+        if ($filename === '') {
+            $filename = 'resume.pdf';
+        }
+        $mimeType = trim((string) ($resume['file_mime_type'] ?? 'application/octet-stream'));
+        if ($mimeType === '') {
+            $mimeType = 'application/octet-stream';
+        }
+
+        header('Content-Type: ' . $mimeType);
+        header('Content-Length: ' . (string) filesize($resolvedPath));
+        header('Content-Disposition: ' . $disposition . '; filename="' . addslashes($filename) . '"');
+        header('X-Content-Type-Options: nosniff');
+        readfile($resolvedPath);
         exit;
     }
 
@@ -317,5 +464,27 @@ class AuthController
         $clean = preg_replace('/\son\w+="[^"]*"/i', '', $clean) ?? '';
         $clean = preg_replace("/\son\w+='[^']*'/i", '', $clean) ?? '';
         return trim($clean);
+    }
+
+    private function resolveResumePath(string $storedPath): string
+    {
+        $storedPath = trim($storedPath);
+        if ($storedPath === '') {
+            return '';
+        }
+
+        if (str_starts_with($storedPath, '/mnt/')) {
+            return $storedPath;
+        }
+
+        if (preg_match('/^[A-Za-z]:[\/\\\\]/', $storedPath) === 1) {
+            return $storedPath;
+        }
+
+        if (str_starts_with($storedPath, '/')) {
+            return public_path(ltrim($storedPath, '/'));
+        }
+
+        return base_path($storedPath);
     }
 }

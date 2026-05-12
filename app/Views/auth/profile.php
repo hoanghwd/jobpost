@@ -12,6 +12,13 @@ if ($fullName === '') {
 }
 $email = trim((string) ($applicant['email'] ?? ''));
 $phone = trim((string) ($applicant['phone'] ?? ''));
+$phoneDigits = preg_replace('/\D+/', '', $phone) ?? '';
+if (strlen($phoneDigits) === 11 && str_starts_with($phoneDigits, '1')) {
+    $phoneDigits = substr($phoneDigits, 1);
+}
+if (strlen($phoneDigits) === 10) {
+    $phone = sprintf('(%s) %s-%s', substr($phoneDigits, 0, 3), substr($phoneDigits, 3, 3), substr($phoneDigits, 6, 4));
+}
 $avatarLetter = strtoupper(substr($fullName !== '' ? $fullName : 'A', 0, 1));
 if ($avatarLetter === '') {
     $avatarLetter = 'A';
@@ -147,14 +154,29 @@ if ($tinyMceKey === '') {
                         if ($fileName === '') {
                             $fileName = trim((string) ($resume['resume_label'] ?? 'Resume'));
                         }
+                        $isCurrentResume = (int) ($resume['is_current'] ?? 0) === 1;
                         $createdUtc = (string) ($resume['created_utc'] ?? '');
                         $addedText = $createdUtc !== '' ? ('Added ' . date('M j, Y', strtotime($createdUtc) ?: time())) : 'Added recently';
                         ?>
                         <article class="resume-item resume-db-item" data-resume-id="<?= $resumeId; ?>">
-                            <div class="resume-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+                            <div class="resume-icon"><img src="/assets/images/PDF_file_icon.svg" alt="PDF file icon"></div>
                             <div>
                                 <h3><?= htmlspecialchars($fileName, ENT_QUOTES, 'UTF-8'); ?></h3>
-                                <p><?= htmlspecialchars($addedText, ENT_QUOTES, 'UTF-8'); ?></p>
+                                <p>
+                                    <?= htmlspecialchars($addedText, ENT_QUOTES, 'UTF-8'); ?>
+                                    <?php if ($isCurrentResume): ?>
+                                        <span class="resume-current-pill">Current</span>
+                                    <?php endif; ?>
+                                </p>
+                                <label class="resume-current-check">
+                                    <input
+                                        type="checkbox"
+                                        data-set-current-resume
+                                        value="<?= $resumeId; ?>"
+                                        <?= $isCurrentResume ? 'checked' : ''; ?>
+                                    >
+                                    Active resume
+                                </label>
                             </div>
                             <div class="resume-action-wrap">
                                 <button type="button" class="resume-more" data-resume-menu-toggle><i class="bi bi-three-dots"></i></button>
@@ -177,6 +199,7 @@ if ($tinyMceKey === '') {
         </section>
     </div>
 </main>
+<input type="file" id="replaceResumeFileInput" accept=".pdf,.doc,.docx,.txt,.rtf" style="display:none">
 
 <div class="modal fade" id="itemEditorModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -261,6 +284,8 @@ if ($tinyMceKey === '') {
     const modalEl = document.getElementById('itemEditorModal');
     const itemModal = modalEl ? new bootstrap.Modal(modalEl) : null;
     const saveItemBtn = document.getElementById('saveItemBtn');
+    const replaceResumeFileInput = document.getElementById('replaceResumeFileInput');
+    let replaceResumeId = '';
     const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
     const initTiny = (selector, minHeight = 220) => tinymce.init({
@@ -425,14 +450,100 @@ if ($tinyMceKey === '') {
                 return;
             }
 
+            if (action === 'replace') {
+                replaceResumeId = resumeId;
+                replaceResumeFileInput?.click();
+                return;
+            }
+
+            if (action === 'preview') {
+                const previewResponse = await fetch('/profile-resume-ajax', {
+                    method: 'POST',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                    body: new URLSearchParams({ action: 'preview', resume_id: resumeId }).toString(),
+                });
+                const previewPayload = await previewResponse.json();
+                if (!previewResponse.ok || !previewPayload.ok || !previewPayload.preview_url) {
+                    throw new Error(previewPayload.message || 'Preview unavailable');
+                }
+                window.open(previewPayload.preview_url, '_blank', 'noopener');
+                return;
+            }
+
+            if (action === 'download') {
+                const downloadResponse = await fetch('/profile-resume-ajax', {
+                    method: 'POST',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                    body: new URLSearchParams({ action: 'download', resume_id: resumeId }).toString(),
+                });
+                const downloadPayload = await downloadResponse.json();
+                if (!downloadResponse.ok || !downloadPayload.ok || !downloadPayload.download_url) {
+                    throw new Error(downloadPayload.message || 'Download unavailable');
+                }
+                window.open(downloadPayload.download_url, '_blank', 'noopener');
+                return;
+            }
+
             const textMap = {
-                preview: 'Preview action is ready for wiring to your file viewer.',
-                download: 'Download action is ready for wiring to your file download endpoint.',
                 sync: 'Sync to profile action can be wired next.',
-                replace: 'Upload to replace resume action can be wired next.',
             };
             alert(textMap[action] || 'Action coming next.');
         });
+    });
+
+    document.querySelectorAll('[data-set-current-resume]').forEach((checkbox) => {
+        checkbox.addEventListener('change', async () => {
+            if (!checkbox.checked) {
+                checkbox.checked = true;
+                return;
+            }
+            const resumeId = checkbox.value || '';
+            if (!resumeId) return;
+
+            try {
+                const response = await fetch('/profile-resume-ajax', {
+                    method: 'POST',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                    body: new URLSearchParams({ action: 'set_current', resume_id: resumeId }).toString(),
+                });
+                const payload = await response.json();
+                if (!response.ok || !payload.ok) {
+                    throw new Error(payload.message || 'Unable to update active resume');
+                }
+                window.location.reload();
+            } catch (e) {
+                alert('Unable to update active resume.');
+                checkbox.checked = !checkbox.checked;
+            }
+        });
+    });
+
+    replaceResumeFileInput?.addEventListener('change', async () => {
+        const file = replaceResumeFileInput.files && replaceResumeFileInput.files[0];
+        if (!file || !replaceResumeId) return;
+
+        const formData = new FormData();
+        formData.append('action', 'replace');
+        formData.append('resume_id', replaceResumeId);
+        formData.append('resume_file', file);
+
+        try {
+            const response = await fetch('/profile-resume-ajax', {
+                method: 'POST',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                body: formData,
+            });
+            const payload = await response.json();
+            if (!response.ok || !payload.ok) {
+                throw new Error(payload.message || 'Upload failed');
+            }
+            window.location.reload();
+        } catch (e) {
+            alert('Upload failed. Please try again.');
+        } finally {
+            replaceResumeFileInput.value = '';
+            replaceResumeId = '';
+        }
     });
 
     saveItemBtn?.addEventListener('click', async () => {
