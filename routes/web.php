@@ -7,6 +7,8 @@ use App\Modules\Auth\Controllers\AuthController;
 
 $router->get('/', [HomeController::class, 'index']);
 $router->get('/dashboard', [HomeController::class, 'index']);
+$router->get('/apply', [HomeController::class, 'applyPage']);
+$router->post('/apply-ajax', [HomeController::class, 'applyAjax']);
 
 $router->get('/login', [AuthController::class, 'showLogin']);
 $router->get('/profile', [AuthController::class, 'showProfile']);

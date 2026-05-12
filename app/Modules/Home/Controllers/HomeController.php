@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Home\Controllers;
 
 use App\Core\Database\Database;
+use App\Modules\Auth\Models\User;
 use PDO;
 
 class HomeController
@@ -42,6 +43,153 @@ class HomeController
         require base_path('app/Views/home/index.php');
         $content = (string) ob_get_clean();
         require base_path('app/Views/layouts/main.php');
+    }
+
+    public function applyPage(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (empty($_SESSION['auth']['is_logged_in'])) {
+            header('Location: /login');
+            exit;
+        }
+
+        $jobId = (int) ($_GET['job'] ?? 0);
+        $job = $this->findJobApplyById($jobId);
+        if ($job === null) {
+            header('Location: /');
+            exit;
+        }
+
+        $applicant = $_SESSION['auth']['applicant'] ?? [];
+        $userModel = new User();
+        $resume = $userModel->getCurrentApplicantResume((int) ($applicant['applicant_account_id'] ?? 0));
+        $recentlyApplied = $this->hasRecentApplication(
+            (int) ($job['job_post_id'] ?? 0),
+            (int) ($applicant['applicant_account_id'] ?? 0),
+            (string) ($applicant['email'] ?? '')
+        );
+
+        $title = 'Apply';
+        ob_start();
+        require base_path('app/Views/home/apply.php');
+        $content = (string) ob_get_clean();
+        require base_path('app/Views/layouts/main.php');
+    }
+
+    public function applyAjax(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        header('Content-Type: application/json; charset=UTF-8');
+
+        if (empty($_SESSION['auth']['is_logged_in'])) {
+            http_response_code(401);
+            echo json_encode(['ok' => false, 'message' => 'Not authenticated.']);
+            return;
+        }
+
+        $jobId = (int) ($_POST['job_id'] ?? 0);
+        $job = $this->findJobApplyById($jobId);
+        if ($job === null) {
+            http_response_code(404);
+            echo json_encode(['ok' => false, 'message' => 'Job not found.']);
+            return;
+        }
+
+        $applicant = $_SESSION['auth']['applicant'] ?? [];
+        $applicantAccountId = (int) ($applicant['applicant_account_id'] ?? 0);
+        $applicantEmail = (string) ($applicant['email'] ?? '');
+        $alreadyApplied = $this->hasRecentApplication($jobId, $applicantAccountId, $applicantEmail);
+        if ($alreadyApplied) {
+            http_response_code(409);
+            echo json_encode([
+                'ok' => false,
+                'message' => 'You already applied to this job. You can apply again after 3 months if the job is still active.',
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            return;
+        }
+
+        $userModel = new User();
+        $resume = $userModel->getCurrentApplicantResume($applicantAccountId);
+
+        $db = Database::connect();
+        $db->beginTransaction();
+        try {
+            $externalApplyId = 'apply_' . $applicantAccountId . '_' . $jobId . '_' . gmdate('YmdHis');
+            $fullName = trim((string) (($applicant['first_name'] ?? '') . ' ' . ($applicant['last_name'] ?? '')));
+
+            $insertPool = $db->prepare("
+                INSERT INTO job_applicant_pool (
+                    external_source_system, external_apply_id, job_post_id, office_id, account_id,
+                    source_name, first_name, last_name, full_name, phone, email, has_resume,
+                    resume_file_path, resume_original_filename, raw_payload_json, applicant_status, parse_status, score_status
+                ) VALUES (
+                    :external_source_system, :external_apply_id, :job_post_id, :office_id, :account_id,
+                    :source_name, :first_name, :last_name, :full_name, :phone, :email, :has_resume,
+                    :resume_file_path, :resume_original_filename, :raw_payload_json, 'new', 'not_started', 'not_started'
+                )
+            ");
+            $insertPool->execute([
+                'external_source_system' => 'jobpost_candidate_portal',
+                'external_apply_id' => $externalApplyId,
+                'job_post_id' => (int) $job['job_post_id'],
+                'office_id' => isset($job['office_id']) ? (int) $job['office_id'] : null,
+                'account_id' => isset($job['account_id']) ? (int) $job['account_id'] : null,
+                'source_name' => 'jobpost',
+                'first_name' => (string) ($applicant['first_name'] ?? ''),
+                'last_name' => (string) ($applicant['last_name'] ?? ''),
+                'full_name' => $fullName,
+                'phone' => (string) ($applicant['phone'] ?? ''),
+                'email' => (string) ($applicant['email'] ?? ''),
+                'has_resume' => $resume ? 1 : 0,
+                'resume_file_path' => $resume['file_path'] ?? null,
+                'resume_original_filename' => $resume['original_file_name'] ?? null,
+                'raw_payload_json' => json_encode([
+                    'applicant_account_id' => $applicantAccountId,
+                    'active_resume_id' => $resume['applicant_resume_id'] ?? null,
+                    'submitted_via' => 'candidate_apply_page',
+                ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+            ]);
+            $poolId = (int) $db->lastInsertId();
+
+            if ($resume) {
+                $insertResume = $db->prepare("
+                    INSERT INTO job_applicant_resumes (
+                        applicant_pool_id, job_post_id, resume_source, file_path, original_filename, mime_type, size_bytes, is_active, parse_status
+                    ) VALUES (
+                        :applicant_pool_id, :job_post_id, :resume_source, :file_path, :original_filename, :mime_type, :size_bytes, 1, 'not_started'
+                    )
+                ");
+                $insertResume->execute([
+                    'applicant_pool_id' => $poolId,
+                    'job_post_id' => (int) $job['job_post_id'],
+                    'resume_source' => 'applicant_current_resume',
+                    'file_path' => $resume['file_path'] ?? null,
+                    'original_filename' => $resume['original_file_name'] ?? null,
+                    'mime_type' => $resume['file_mime_type'] ?? null,
+                    'size_bytes' => isset($resume['file_size_bytes']) ? (int) $resume['file_size_bytes'] : null,
+                ]);
+            }
+
+            $db->commit();
+            echo json_encode([
+                'ok' => true,
+                'message' => 'Application submitted.',
+                'applicant_pool_id' => $poolId,
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            return;
+        } catch (\Throwable $e) {
+            if ($db->inTransaction()) {
+                $db->rollBack();
+            }
+            http_response_code(500);
+            echo json_encode(['ok' => false, 'message' => 'Unable to submit application.']);
+            return;
+        }
     }
 
     /**
@@ -185,5 +333,65 @@ SQL;
         array_unshift($jobs, $selectedJob);
 
         return $jobs;
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    private function findJobApplyById(int $jobId): ?array
+    {
+        if ($jobId <= 0) {
+            return null;
+        }
+        $db = Database::connect();
+        $sql = "
+            SELECT
+                jp.job_post_id,
+                jp.account_id,
+                jp.office_id,
+                jp.job_title,
+                jp.job_location,
+                jp.city,
+                jp.state_code,
+                COALESCE(NULLIF(TRIM(a.accName), ''), NULLIF(TRIM(a.officeName), ''), CONCAT('Account #', jp.account_id)) AS company_name
+            FROM job_posts jp
+            LEFT JOIN accounts a ON a.account_id = jp.account_id
+            WHERE jp.job_post_id = :job_post_id
+              AND jp.active = 1
+            LIMIT 1
+        ";
+        $stmt = $db->prepare($sql);
+        $stmt->execute(['job_post_id' => $jobId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ?: null;
+    }
+
+    private function hasRecentApplication(int $jobId, int $applicantAccountId, string $applicantEmail): bool
+    {
+        if ($jobId <= 0) {
+            return false;
+        }
+
+        $db = Database::connect();
+        $sql = "
+            SELECT jap.applicant_pool_id
+            FROM job_applicant_pool jap
+            WHERE jap.job_post_id = :job_post_id
+              AND jap.removed = 0
+              AND jap.created_utc >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 MONTH)
+              AND (
+                    JSON_UNQUOTE(JSON_EXTRACT(jap.raw_payload_json, '$.applicant_account_id')) = :applicant_account_id
+                 OR (:applicant_email_check <> '' AND LOWER(jap.email) = LOWER(:applicant_email_match))
+              )
+            LIMIT 1
+        ";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            'job_post_id' => $jobId,
+            'applicant_account_id' => (string) $applicantAccountId,
+            'applicant_email_check' => trim($applicantEmail),
+            'applicant_email_match' => trim($applicantEmail),
+        ]);
+        return (bool) $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

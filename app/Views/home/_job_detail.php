@@ -61,7 +61,7 @@
             </section>
         <?php endif; ?>
         <div class="detail-actions">
-            <a href="#" class="apply-btn">Apply with JobPost</a>
+            <a href="/apply?job=<?= (int) $detailJobId; ?>" class="apply-btn">Apply with JobPost</a>
             <button type="button" class="icon-btn"><i class="bi bi-bookmark"></i></button>
             <button type="button" class="icon-btn"><i class="bi bi-share"></i></button>
         </div>

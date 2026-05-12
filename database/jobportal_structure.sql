@@ -11,7 +11,7 @@
  Target Server Version : 80045
  File Encoding         : 65001
 
- Date: 12/05/2026 10:01:41
+ Date: 12/05/2026 13:11:24
 */
 
 SET NAMES utf8mb4;
@@ -112,7 +112,7 @@ CREATE TABLE `applicant_account_candidates`  (
   INDEX `idx_applicant_account_candidates_account`(`applicant_account_id`) USING BTREE,
   CONSTRAINT `fk_applicant_account_candidates_account` FOREIGN KEY (`applicant_account_id`) REFERENCES `applicant_accounts` (`applicant_account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_applicant_account_candidates_candidate` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`candidate_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 256 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 246 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for applicant_accounts
@@ -147,7 +147,7 @@ CREATE TABLE `applicant_accounts`  (
   INDEX `idx_applicant_accounts_email`(`email`) USING BTREE,
   INDEX `idx_applicant_accounts_phone`(`phone`) USING BTREE,
   CONSTRAINT `fk_applicant_accounts_active_resume` FOREIGN KEY (`active_resume_id`) REFERENCES `applicant_resumes` (`applicant_resume_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 256 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 299 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for applicant_intake_pipeline_runs
@@ -444,7 +444,7 @@ CREATE TABLE `applicant_resumes`  (
   INDEX `idx_applicant_resumes_text_hash`(`text_hash`) USING BTREE,
   CONSTRAINT `fk_applicant_resumes_account` FOREIGN KEY (`applicant_account_id`) REFERENCES `applicant_accounts` (`applicant_account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_applicant_resumes_source_candidate_resume` FOREIGN KEY (`source_candidate_resume_id`) REFERENCES `candidate_resumes` (`resume_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 128 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 183 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for candidate_ai_parse_batch_items

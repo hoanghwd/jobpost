@@ -337,6 +337,28 @@ class User extends Model
         }
     }
 
+    public function getCurrentApplicantResume(int $applicantAccountId): ?array
+    {
+        if ($applicantAccountId <= 0) {
+            return null;
+        }
+
+        $sql = "
+            SELECT *
+            FROM applicant_resumes
+            WHERE applicant_account_id = :applicant_account_id
+              AND deleted_utc IS NULL
+            ORDER BY is_current DESC, updated_utc DESC, applicant_resume_id DESC
+            LIMIT 1
+        ";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':applicant_account_id', $applicantAccountId, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row ?: null;
+    }
+
     public function upsertProfileListItem(int $applicantAccountId, string $column, array $item): void
     {
         if (!in_array($column, ['work_experience_json', 'education_json'], true)) {

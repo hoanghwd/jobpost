@@ -575,6 +575,197 @@ body {
     margin: 0;
 }
 
+.apply-page {
+    background: #f5f7fb;
+    min-height: 100vh;
+    padding: 24px 14px;
+}
+
+.apply-main-divider {
+    border: 0;
+    border-top: 1px solid #dfe5ee;
+    margin: 0 0 16px;
+}
+
+.apply-shell {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.apply-job-card,
+.apply-review-card,
+.apply-success-card,
+.apply-loading-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 14px;
+}
+
+.apply-loading-card h2 {
+    margin: 0 0 12px;
+    font-size: 18px;
+}
+
+.apply-job-card h1 {
+    margin: 0 0 6px;
+    font-size: 22px;
+    color: #1f2937;
+}
+
+.apply-job-card p {
+    margin: 0;
+    font-size: 14px;
+    color: #4b5563;
+}
+
+.apply-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.apply-progress-track {
+    flex: 1;
+    height: 10px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    overflow: hidden;
+}
+
+.apply-progress-bar {
+    width: 0;
+    height: 10px;
+    background: #1658d0;
+    border-radius: 999px;
+    transition: width .08s linear;
+}
+
+.apply-review-card h2,
+.apply-success-card h2 {
+    margin: 0 0 8px;
+    font-size: 18px;
+}
+
+.apply-review-card > p,
+.apply-success-card p {
+    margin: 0 0 14px;
+    color: #4b5563;
+    font-size: 13px;
+}
+
+.apply-detail-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.apply-detail-card h3 {
+    margin: 0 0 10px;
+    font-size: 14px;
+}
+
+.apply-detail-card .row {
+    margin: 0;
+    padding: 10px 0;
+    border-top: 1px solid #eef2f7;
+}
+
+.apply-detail-card .row:first-of-type {
+    border-top: 0;
+}
+
+.apply-detail-card label {
+    display: block;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.apply-detail-card strong {
+    display: block;
+    color: #111827;
+    font-size: 16px;
+}
+
+.submit-application-btn,
+.back-home-btn {
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    text-decoration: none;
+    background: #1658d0;
+    color: #fff;
+    border-radius: 12px;
+    min-height: 46px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.submit-application-btn:disabled {
+    cursor: not-allowed;
+    background: #9ca3af;
+}
+
+.apply-blocked-msg {
+    margin: 0 0 10px;
+    color: #b91c1c;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.apply-resume-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.apply-resume-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1658d0;
+    text-decoration: none;
+}
+
+.apply-resume-file {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.apply-resume-file img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
+.apply-resume-file p {
+    margin: 0;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.apply-resume-preview {
+    margin-top: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.apply-resume-preview iframe {
+    display: block;
+    width: 100%;
+    height: 950px;
+    border: 0;
+    overflow: hidden;
+}
+
 .hero-nav nav a {
     color: #2d2f36;
     text-decoration: none;
