@@ -28,13 +28,17 @@ class HomeController
         $keyword = trim((string) ($_GET['q'] ?? ''));
         $location = trim((string) ($_GET['l'] ?? ''));
         $selectedId = (int) ($_GET['job'] ?? 0);
+        $perPage = 20;
+        $currentPage = max(1, (int) ($_GET['page'] ?? 1));
+        $totalJobs = $this->countJobs($keyword, $location);
+        $totalPages = max(1, (int) ceil($totalJobs / $perPage));
+        if ($currentPage > $totalPages) {
+            $currentPage = $totalPages;
+        }
 
-        $jobs = $this->findJobs($keyword, $location);
+        $jobs = $this->findJobs($keyword, $location, $currentPage, $perPage);
         if ($selectedId > 0) {
             $selectedJob = $this->findJobById($selectedId);
-            if ($selectedJob !== null) {
-                $jobs = $this->ensureJobPresent($jobs, $selectedJob);
-            }
         } else {
             $selectedJob = $this->resolveSelectedJob($jobs, 0);
         }
@@ -195,9 +199,10 @@ class HomeController
     /**
      * @return array<int, array<string, mixed>>
      */
-    private function findJobs(string $keyword, string $location): array
+    private function findJobs(string $keyword, string $location, int $page, int $perPage): array
     {
         $db = Database::connect();
+        $offset = max(0, ($page - 1) * $perPage);
 
         $sql = <<<'SQL'
 SELECT
@@ -214,9 +219,11 @@ SELECT
     jp.pay_rate_max,
     jp.pay_interval,
     jp.created_utc,
-    COALESCE(NULLIF(TRIM(a.accName), ''), NULLIF(TRIM(a.officeName), ''), CONCAT('Account #', jp.account_id)) AS company_name
+    DATE(jp.created_utc) = UTC_DATE() AS is_new_today,
+    jb.job_board_id,
+    NULL AS company_name
 FROM job_posts jp
-LEFT JOIN accounts a ON a.account_id = jp.account_id
+LEFT JOIN job_boards jb ON jb.job_board_id = jp.job_board_id
 WHERE jp.active = 1
   AND jp.created_utc >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 MONTH)
 SQL;
@@ -224,7 +231,7 @@ SQL;
         $params = [];
 
         if ($keyword !== '') {
-            $sql .= ' AND (jp.job_title LIKE :keyword_title OR jp.description_text LIKE :keyword_description OR a.accName LIKE :keyword_company)';
+            $sql .= ' AND (jp.job_title LIKE :keyword_title OR jp.description_text LIKE :keyword_description OR jb.job_board_name LIKE :keyword_company)';
             $keywordLike = '%' . $keyword . '%';
             $params['keyword_title'] = $keywordLike;
             $params['keyword_description'] = $keywordLike;
@@ -239,12 +246,53 @@ SQL;
             $params['location_state'] = $locationLike;
         }
 
-        $sql .= ' ORDER BY jp.created_utc DESC';
+        $sql .= ' ORDER BY jp.created_utc DESC, jp.job_post_id DESC LIMIT :limit OFFSET :offset';
+
+        $stmt = $db->prepare($sql);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue(':' . $key, $value, PDO::PARAM_STR);
+        }
+        $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
+    private function countJobs(string $keyword, string $location): int
+    {
+        $db = Database::connect();
+
+        $sql = <<<'SQL'
+SELECT COUNT(*)
+FROM job_posts jp
+LEFT JOIN job_boards jb ON jb.job_board_id = jp.job_board_id
+WHERE jp.active = 1
+  AND jp.created_utc >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 MONTH)
+SQL;
+
+        $params = [];
+
+        if ($keyword !== '') {
+            $sql .= ' AND (jp.job_title LIKE :keyword_title OR jp.description_text LIKE :keyword_description OR jb.job_board_name LIKE :keyword_company)';
+            $keywordLike = '%' . $keyword . '%';
+            $params['keyword_title'] = $keywordLike;
+            $params['keyword_description'] = $keywordLike;
+            $params['keyword_company'] = $keywordLike;
+        }
+
+        if ($location !== '') {
+            $sql .= ' AND (jp.job_location LIKE :location_full OR jp.city LIKE :location_city OR jp.state_code LIKE :location_state)';
+            $locationLike = '%' . $location . '%';
+            $params['location_full'] = $locationLike;
+            $params['location_city'] = $locationLike;
+            $params['location_state'] = $locationLike;
+        }
 
         $stmt = $db->prepare($sql);
         $stmt->execute($params);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        return (int) $stmt->fetchColumn();
     }
 
     /**
@@ -296,9 +344,11 @@ SELECT
     jp.pay_rate_max,
     jp.pay_interval,
     jp.created_utc,
-    COALESCE(NULLIF(TRIM(a.accName), ''), NULLIF(TRIM(a.officeName), ''), CONCAT('Account #', jp.account_id)) AS company_name
+    DATE(jp.created_utc) = UTC_DATE() AS is_new_today,
+    jb.job_board_id,
+    NULL AS company_name
 FROM job_posts jp
-LEFT JOIN accounts a ON a.account_id = jp.account_id
+LEFT JOIN job_boards jb ON jb.job_board_id = jp.job_board_id
 WHERE jp.active = 1
   AND jp.created_utc >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 MONTH)
   AND jp.job_post_id = :job_post_id
@@ -310,29 +360,6 @@ SQL;
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $row ?: null;
-    }
-
-    /**
-     * @param array<int, array<string, mixed>> $jobs
-     * @param array<string, mixed> $selectedJob
-     * @return array<int, array<string, mixed>>
-     */
-    private function ensureJobPresent(array $jobs, array $selectedJob): array
-    {
-        $selectedId = (int) ($selectedJob['job_post_id'] ?? 0);
-        if ($selectedId <= 0) {
-            return $jobs;
-        }
-
-        foreach ($jobs as $job) {
-            if ((int) ($job['job_post_id'] ?? 0) === $selectedId) {
-                return $jobs;
-            }
-        }
-
-        array_unshift($jobs, $selectedJob);
-
-        return $jobs;
     }
 
     /**
@@ -353,9 +380,10 @@ SQL;
                 jp.job_location,
                 jp.city,
                 jp.state_code,
-                COALESCE(NULLIF(TRIM(a.accName), ''), NULLIF(TRIM(a.officeName), ''), CONCAT('Account #', jp.account_id)) AS company_name
+                jb.job_board_id,
+                NULL AS company_name
             FROM job_posts jp
-            LEFT JOIN accounts a ON a.account_id = jp.account_id
+            LEFT JOIN job_boards jb ON jb.job_board_id = jp.job_board_id
             WHERE jp.job_post_id = :job_post_id
               AND jp.active = 1
             LIMIT 1

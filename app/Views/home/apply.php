@@ -75,7 +75,16 @@ if ($avatarLetter === '') {
         <div id="applyContentRoot" style="display:none;">
             <section class="apply-job-card">
                 <h1><?= htmlspecialchars((string) ($job['job_title'] ?? 'Job'), ENT_QUOTES, 'UTF-8'); ?></h1>
-                <p><?= htmlspecialchars((string) ($job['company_name'] ?? ''), ENT_QUOTES, 'UTF-8'); ?><?= $location !== '' ? ' - ' . htmlspecialchars($location, ENT_QUOTES, 'UTF-8') : ''; ?></p>
+                <?php
+                $companyName = trim((string) ($job['company_name'] ?? ''));
+                $jobMeta = trim(implode(' - ', array_filter([
+                    $companyName,
+                    $location,
+                ], static fn (string $part): bool => trim($part) !== '')));
+                ?>
+                <?php if ($jobMeta !== ''): ?>
+                    <p><?= htmlspecialchars($jobMeta, ENT_QUOTES, 'UTF-8'); ?></p>
+                <?php endif; ?>
             </section>
 
             <section class="apply-review-card" id="applyReviewCard">

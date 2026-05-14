@@ -4,14 +4,36 @@ $jobs = $jobs ?? [];
 $selectedJob = $selectedJob ?? null;
 $keyword = $keyword ?? '';
 $location = $location ?? '';
+$totalJobs = (int) ($totalJobs ?? count($jobs));
+$currentPage = max(1, (int) ($currentPage ?? 1));
+$totalPages = max(1, (int) ($totalPages ?? 1));
+$perPage = max(1, (int) ($perPage ?? 20));
 $currentPath = parse_url((string) ($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH) ?: '/';
 $currentTab = (string) ($_GET['tab'] ?? '');
-$jobCount = count($jobs);
 $hasFilters = $keyword !== '' || $location !== '';
-$jobsLabel = $jobCount === 1 ? 'job' : 'jobs';
+$jobsLabel = $totalJobs === 1 ? 'job' : 'jobs';
 $resultsSummary = $hasFilters
-    ? sprintf('%d %s match your criteria', $jobCount, $jobsLabel)
-    : sprintf('%d active %s in the last 3 months', $jobCount, $jobsLabel);
+    ? sprintf('%d %s match your criteria', $totalJobs, $jobsLabel)
+    : sprintf('%d active %s in the last 3 months', $totalJobs, $jobsLabel);
+$firstResult = $totalJobs > 0 ? (($currentPage - 1) * $perPage) + 1 : 0;
+$lastResult = min($totalJobs, $currentPage * $perPage);
+$pageWindowStart = max(1, $currentPage - 2);
+$pageWindowEnd = min($totalPages, $currentPage + 2);
+$buildPageUrl = static function (int $page) use ($keyword, $location): string {
+    $params = [];
+    if ($keyword !== '') {
+        $params['q'] = $keyword;
+    }
+    if ($location !== '') {
+        $params['l'] = $location;
+    }
+    if ($page > 1) {
+        $params['page'] = $page;
+    }
+
+    $query = http_build_query($params);
+    return $query === '' ? '/' : '/?' . $query;
+};
 
 $activeTab = 'home';
 if ($currentPath === '/company-reviews' || $currentTab === 'company-reviews') {
@@ -90,7 +112,12 @@ if ($avatarLetter === '') {
         <div class="jobs-grid">
             <section class="job-list">
                 <h2>Matches your preferences</h2>
-                <p class="results-summary"><?= htmlspecialchars($resultsSummary, ENT_QUOTES, 'UTF-8'); ?></p>
+                <p class="results-summary">
+                    <?= htmlspecialchars($resultsSummary, ENT_QUOTES, 'UTF-8'); ?>
+                    <?php if ($totalPages > 1): ?>
+                        <span>Showing <?= (int) $firstResult; ?>-<?= (int) $lastResult; ?></span>
+                    <?php endif; ?>
+                </p>
                 <?php if ($jobs === []): ?>
                     <div class="job-card empty-state">
                         <p>No active jobs found for this search.</p>
@@ -105,10 +132,12 @@ if ($avatarLetter === '') {
                         'q' => $keyword,
                         'l' => $location,
                         'job' => $jobId,
+                        'page' => $currentPage,
                     ]);
                     $titleText = (string) ($job['job_title'] ?? 'Untitled Job');
                     $titleWithId = $titleText . ' (#' . $jobId . ')';
-                    $companyText = (string) ($job['company_name'] ?? 'Unknown Company');
+                    $isNewToday = (bool) ($job['is_new_today'] ?? false);
+                    $companyText = trim((string) ($job['company_name'] ?? ''));
                     $locationText = trim((string) ($job['job_location'] ?: (($job['city'] ?? '') . ', ' . ($job['state_code'] ?? ''))));
                     $summary = '';
                     $benefitsRaw = (string) ($job['benefits'] ?? '');
@@ -174,8 +203,15 @@ if ($avatarLetter === '') {
                         data-job-card
                         data-job-id="<?= $jobId; ?>"
                     >
-                        <h3><?= htmlspecialchars($titleWithId, ENT_QUOTES, 'UTF-8'); ?></h3>
-                        <p class="company"><?= htmlspecialchars($companyText, ENT_QUOTES, 'UTF-8'); ?></p>
+                        <div class="job-card-title-row">
+                            <h3><?= htmlspecialchars($titleWithId, ENT_QUOTES, 'UTF-8'); ?></h3>
+                            <?php if ($isNewToday): ?>
+                                <span class="new-job-badge">New</span>
+                            <?php endif; ?>
+                        </div>
+                        <?php if ($companyText !== ''): ?>
+                            <p class="company"><?= htmlspecialchars($companyText, ENT_QUOTES, 'UTF-8'); ?></p>
+                        <?php endif; ?>
                         <p class="location"><i class="bi bi-geo-alt-fill"></i> <?= htmlspecialchars($locationText !== '' ? $locationText : 'Location not specified', ENT_QUOTES, 'UTF-8'); ?></p>
                         <?php if ($cardPay !== '' || $workModeLabel !== ''): ?>
                             <div class="meta-snippets">
@@ -192,6 +228,40 @@ if ($avatarLetter === '') {
                         <?php endif; ?>
                     </a>
                 <?php endforeach; ?>
+
+                <?php if ($totalPages > 1): ?>
+                    <nav class="pagination" aria-label="Job result pages">
+                        <?php if ($currentPage > 1): ?>
+                            <a href="<?= htmlspecialchars($buildPageUrl($currentPage - 1), ENT_QUOTES, 'UTF-8'); ?>" class="page-link" aria-label="Previous page"><i class="bi bi-chevron-left"></i></a>
+                        <?php endif; ?>
+
+                        <?php if ($pageWindowStart > 1): ?>
+                            <a href="<?= htmlspecialchars($buildPageUrl(1), ENT_QUOTES, 'UTF-8'); ?>" class="page-link">1</a>
+                            <?php if ($pageWindowStart > 2): ?>
+                                <span class="page-ellipsis">...</span>
+                            <?php endif; ?>
+                        <?php endif; ?>
+
+                        <?php for ($page = $pageWindowStart; $page <= $pageWindowEnd; $page++): ?>
+                            <?php if ($page === $currentPage): ?>
+                                <span class="page-link active" aria-current="page"><?= (int) $page; ?></span>
+                            <?php else: ?>
+                                <a href="<?= htmlspecialchars($buildPageUrl($page), ENT_QUOTES, 'UTF-8'); ?>" class="page-link"><?= (int) $page; ?></a>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+
+                        <?php if ($pageWindowEnd < $totalPages): ?>
+                            <?php if ($pageWindowEnd < $totalPages - 1): ?>
+                                <span class="page-ellipsis">...</span>
+                            <?php endif; ?>
+                            <a href="<?= htmlspecialchars($buildPageUrl($totalPages), ENT_QUOTES, 'UTF-8'); ?>" class="page-link"><?= (int) $totalPages; ?></a>
+                        <?php endif; ?>
+
+                        <?php if ($currentPage < $totalPages): ?>
+                            <a href="<?= htmlspecialchars($buildPageUrl($currentPage + 1), ENT_QUOTES, 'UTF-8'); ?>" class="page-link" aria-label="Next page"><i class="bi bi-chevron-right"></i></a>
+                        <?php endif; ?>
+                    </nav>
+                <?php endif; ?>
             </section>
 
             <section class="job-detail" id="job-detail-panel">

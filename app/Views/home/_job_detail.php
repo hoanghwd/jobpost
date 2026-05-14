@@ -9,8 +9,13 @@
     $detailTitle = (string) ($selectedJob['job_title'] ?? 'Untitled Job');
     $detailJobId = (int) ($selectedJob['job_post_id'] ?? 0);
     $detailTitleWithId = $detailTitle . ' (#' . $detailJobId . ')';
-    $detailCompany = (string) ($selectedJob['company_name'] ?? 'Unknown Company');
+    $detailIsNewToday = (bool) ($selectedJob['is_new_today'] ?? false);
+    $detailCompany = trim((string) ($selectedJob['company_name'] ?? ''));
     $detailLocation = trim((string) ($selectedJob['job_location'] ?: (($selectedJob['city'] ?? '') . ', ' . ($selectedJob['state_code'] ?? ''))));
+    $detailCompanyLocation = trim(implode(' | ', array_filter([
+        $detailCompany,
+        $detailLocation !== '' ? $detailLocation : 'Location not specified',
+    ], static fn (string $part): bool => trim($part) !== '')));
     $payMin = isset($selectedJob['pay_rate_min']) ? (float) $selectedJob['pay_rate_min'] : null;
     $payMax = isset($selectedJob['pay_rate_max']) ? (float) $selectedJob['pay_rate_max'] : null;
     $payIntervalRaw = strtolower(trim((string) ($selectedJob['pay_interval'] ?? '')));
@@ -52,8 +57,13 @@
     $descriptionHtml = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $descriptionRaw) ?? '';
     ?>
     <header class="detail-head">
-        <h1><?= htmlspecialchars($detailTitleWithId, ENT_QUOTES, 'UTF-8'); ?></h1>
-        <p class="company-line"><?= htmlspecialchars($detailCompany, ENT_QUOTES, 'UTF-8'); ?> | <?= htmlspecialchars($detailLocation !== '' ? $detailLocation : 'Location not specified', ENT_QUOTES, 'UTF-8'); ?></p>
+        <div class="detail-title-row">
+            <h1><?= htmlspecialchars($detailTitleWithId, ENT_QUOTES, 'UTF-8'); ?></h1>
+            <?php if ($detailIsNewToday): ?>
+                <span class="new-job-badge">New</span>
+            <?php endif; ?>
+        </div>
+        <p class="company-line"><?= htmlspecialchars($detailCompanyLocation, ENT_QUOTES, 'UTF-8'); ?></p>
         <?php if ($payText !== ''): ?>
             <section class="pay-panel" aria-label="Pay">
                 <p class="pay-kicker">Pay</p>
