@@ -221,9 +221,11 @@ SELECT
     jp.created_utc,
     DATE(jp.created_utc) = UTC_DATE() AS is_new_today,
     jb.job_board_id,
-    NULL AS company_name
+    TRIM(COALESCE(o.OfficeName, '')) AS office_name,
+    NULLIF(TRIM(o.OfficeName), '') AS company_name
 FROM job_posts jp
 LEFT JOIN job_boards jb ON jb.job_board_id = jp.job_board_id
+LEFT JOIN office o ON o.office_id = jp.office_id
 WHERE jp.active = 1
   AND jp.created_utc >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 MONTH)
 SQL;
@@ -231,11 +233,12 @@ SQL;
         $params = [];
 
         if ($keyword !== '') {
-            $sql .= ' AND (jp.job_title LIKE :keyword_title OR jp.description_text LIKE :keyword_description OR jb.job_board_name LIKE :keyword_company)';
+            $sql .= ' AND (jp.job_title LIKE :keyword_title OR jp.description_text LIKE :keyword_description OR jb.job_board_name LIKE :keyword_company OR o.OfficeName LIKE :keyword_office)';
             $keywordLike = '%' . $keyword . '%';
             $params['keyword_title'] = $keywordLike;
             $params['keyword_description'] = $keywordLike;
             $params['keyword_company'] = $keywordLike;
+            $params['keyword_office'] = $keywordLike;
         }
 
         if ($location !== '') {
@@ -267,6 +270,7 @@ SQL;
 SELECT COUNT(*)
 FROM job_posts jp
 LEFT JOIN job_boards jb ON jb.job_board_id = jp.job_board_id
+LEFT JOIN office o ON o.office_id = jp.office_id
 WHERE jp.active = 1
   AND jp.created_utc >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 MONTH)
 SQL;
@@ -274,11 +278,12 @@ SQL;
         $params = [];
 
         if ($keyword !== '') {
-            $sql .= ' AND (jp.job_title LIKE :keyword_title OR jp.description_text LIKE :keyword_description OR jb.job_board_name LIKE :keyword_company)';
+            $sql .= ' AND (jp.job_title LIKE :keyword_title OR jp.description_text LIKE :keyword_description OR jb.job_board_name LIKE :keyword_company OR o.OfficeName LIKE :keyword_office)';
             $keywordLike = '%' . $keyword . '%';
             $params['keyword_title'] = $keywordLike;
             $params['keyword_description'] = $keywordLike;
             $params['keyword_company'] = $keywordLike;
+            $params['keyword_office'] = $keywordLike;
         }
 
         if ($location !== '') {
@@ -346,9 +351,11 @@ SELECT
     jp.created_utc,
     DATE(jp.created_utc) = UTC_DATE() AS is_new_today,
     jb.job_board_id,
-    NULL AS company_name
+    TRIM(COALESCE(o.OfficeName, '')) AS office_name,
+    NULLIF(TRIM(o.OfficeName), '') AS company_name
 FROM job_posts jp
 LEFT JOIN job_boards jb ON jb.job_board_id = jp.job_board_id
+LEFT JOIN office o ON o.office_id = jp.office_id
 WHERE jp.active = 1
   AND jp.created_utc >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 MONTH)
   AND jp.job_post_id = :job_post_id
@@ -381,9 +388,11 @@ SQL;
                 jp.city,
                 jp.state_code,
                 jb.job_board_id,
-                NULL AS company_name
+                TRIM(COALESCE(o.OfficeName, '')) AS office_name,
+                NULLIF(TRIM(o.OfficeName), '') AS company_name
             FROM job_posts jp
             LEFT JOIN job_boards jb ON jb.job_board_id = jp.job_board_id
+            LEFT JOIN office o ON o.office_id = jp.office_id
             WHERE jp.job_post_id = :job_post_id
               AND jp.active = 1
             LIMIT 1
